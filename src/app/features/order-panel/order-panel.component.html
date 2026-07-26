@@ -1,0 +1,161 @@
+<section
+    class="grid gap-4 rounded-3xl bg-linear-to-b from-white to-slate-100 p-6 text-slate-900 shadow-[0_18px_40px_rgba(6,12,24,0.08)]">
+    <header class="grid gap-2">
+        <h1 class="m-0 text-[clamp(1.75rem,2.4vw,2.6rem)] leading-none">Painel de Pedidos</h1>
+    </header>
+    <div class="overflow-x-auto flex flex-col gap-3 " role="region" aria-label="Tabela de pedidos" tabindex="0">
+        <div class="flex justify-end">
+            <button (click)="openCreateModal()" type="button"
+                class="flex items-center justify-center size-[2.5rem] rounded-full bg-green-500 font-bold text-white hover:bg-green-600 transition-colors hover:cursor-pointer">
+                <span class="material-symbols-rounded">
+                    add
+                </span>
+            </button>
+        </div>
+        <table class="min-w-245 w-full border-collapse text-left rounded-2xl border border-slate-200 bg-white/70">
+            <thead class="bg-slate-100/80 text-slate-500">
+                <tr>
+                    <th scope="col"
+                        class="border-b border-slate-200 px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Mesa
+                    </th>
+                    <th scope="col"
+                        class="border-b border-slate-200 px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Pedido
+                    </th>
+                    <th scope="col"
+                        class="border-b border-slate-200 px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Hora
+                    </th>
+                    <th scope="col"
+                        class="border-b border-slate-200 px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Tempo
+                    </th>
+                    <th scope="col"
+                        class="border-b border-slate-200 px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Status
+                    </th>
+                    <th scope="col"
+                        class="border-b border-slate-200 px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">
+                        Observação</th>
+                    <th scope="col"
+                        class="border-b border-slate-200 px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Ações
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (order of orders; track order.id) {
+                <tr class="hover:bg-slate-50">
+                    <td class="border-b border-slate-200 px-4 py-4 font-semibold text-slate-900">{{ order.table }}</td>
+                    <td class="border-b border-slate-200 px-4 py-4 text-slate-700">{{ order.ordered }}</td>
+                    <td class="border-b border-slate-200 px-4 py-4 text-slate-700">{{ order.createdAt | date: 'HH:mm' }}
+                    </td>
+                    <td class="border-b border-slate-200 px-4 py-4 text-slate-700">{{order.displayedTime}}</td>
+                    <td class="border-b border-slate-200 px-4 py-4">
+                        <span
+                            class="inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-1 text-xs font-bold"
+                            [class.bg-green-100]="order.status === 0 || order.status === 3"
+                            [class.text-green-800]="order.status === 0 || order.status === 3"
+                            [class.bg-orange-100]="order.status === 1" [class.text-orange-900]="order.status === 1"
+                            [class.bg-red-100]="order.status === 2" [class.text-red-800]="order.status === 2">
+                            {{ statusLabels[order.status] }}
+                        </span>
+                    </td>
+                    <td class="border-b border-slate-200 px-4 py-4 text-slate-700">{{ order.observation || 'Nenhuma' }}
+                    </td>
+                    <td class="border-b border-slate-200 px-4 py-4">
+                        <div class="flex gap-2">
+                            <button type="button" (click)="openEditModal(order)"
+                                class="inline-flex hover:cursor-pointer items-center gap-2 rounded-lg border border-sky-200 bg-sky-50 px-3 py-2 text-sm font-bold text-sky-700 transition hover:-translate-y-px hover:bg-sky-100"
+                                aria-label="Editar pedido">
+                                <span class="material-symbols-rounded text-base leading-none"
+                                    aria-hidden="true">edit</span>
+                            </button>
+                            <button type="button" (click)="confirmDelete(order)"
+                                class="inline-flex hover:cursor-pointer items-center gap-2 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-bold text-rose-700 transition hover:-translate-y-px hover:bg-rose-100"
+                                aria-label="Excluir pedido">
+                                <span class="material-symbols-rounded text-base leading-none"
+                                    aria-hidden="true">delete</span>
+                            </button>
+                            <!-- Mostrar finalizar apenas se não estiver concluído -->
+                            @if (order.status !== 3) {
+                            <button type="button" (click)="completeOrder(order)"
+                                class="inline-flex hover:cursor-pointer items-center gap-2 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm font-bold text-green-700 transition hover:-translate-y-px hover:bg-green-100"
+                                aria-label="Finalizar pedido">
+                                <span class="material-symbols-rounded text-base leading-none"
+                                    aria-hidden="true">check</span>
+                            </button>
+                            }
+                        </div>
+                    </td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="7" class="text-center py-6 text-slate-500 font-medium bg-slate-50/50">
+                        Nenhum pedido cadastrado no momento.
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<!-- MODAL TAILWIND DE CADASTRO / EDIÇÃO -->
+@if (showModal) {
+<div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs transition-opacity duration-300">
+    <div class="w-full max-w-md mx-4 sm:mx-0 scale-95 rounded-3xl bg-white p-6 shadow-2xl transition-all duration-300">
+        <h3 class="text-xl font-bold text-slate-900 mb-5">
+            {{ modalMode === 'create' ? 'Novo Pedido' : 'Editar Pedido' }}
+        </h3>
+
+        <form (ngSubmit)="submitOrder()">
+            <div class="grid gap-4 mb-6">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1.5">Mesa</label>
+                    <input type="number" [(ngModel)]="newOrder.table" name="table" required
+                        class="w-full rounded-xl border border-slate-200 px-4 py-2 text-slate-950 focus:outline-none focus:border-green-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1.5">Pedido (Item do Cardápio)</label>
+                    <div class="relative">
+                        <span
+                            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-rounded text-slate-400 text-base pointer-events-none">restaurant_menu</span>
+                        <select [(ngModel)]="newOrder.ordered" name="ordered" required
+                            class="w-full appearance-none rounded-xl border border-slate-200 bg-white pl-9 pr-8 py-2 text-slate-950 focus:outline-none focus:border-green-500 hover:cursor-pointer">
+                            <option value="" disabled>Selecione um item...</option>
+                            <option *ngFor="let item of menus" [value]="item.name">
+                                {{ item.name }} ({{ item.minPreparationTimeInMinutes }}–{{
+                                item.maxPreparationTimeInMinutes }} min)
+                            </option>
+                        </select>
+                        <span
+                            class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-rounded text-slate-400 text-base pointer-events-none">expand_more</span>
+                    </div>
+                    <p *ngIf="menus.length === 0" class="mt-1.5 text-xs text-amber-600 flex items-center gap-1">
+                        <span class="material-symbols-rounded text-sm">warning</span>
+                        Nenhum item no cardápio. Cadastre itens primeiro.
+                    </p>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1.5">Observação</label>
+                    <textarea [(ngModel)]="newOrder.observation" name="observation" placeholder="Ex: Sem cebola"
+                        rows="3"
+                        class="w-full rounded-xl border border-slate-200 px-4 py-2 text-slate-950 focus:outline-none focus:border-green-500"></textarea>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3 border-t border-slate-100 pt-4">
+                <button type="button" (click)="closeModal()"
+                    class="px-4 py-2 text-sm font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition hover:cursor-pointer">
+                    Cancelar
+                </button>
+                <button type="submit"
+                    class="px-4 py-2 text-sm font-bold text-white rounded-xl transition hover:cursor-pointer"
+                    [class.bg-green-500]="modalMode === 'create'" [class.hover:bg-green-600]="modalMode === 'create'"
+                    [class.bg-sky-500]="modalMode === 'edit'" [class.hover:bg-sky-600]="modalMode === 'edit'">
+                    {{ modalMode === 'create' ? 'Confirmar' : 'Salvar Alterações' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+}

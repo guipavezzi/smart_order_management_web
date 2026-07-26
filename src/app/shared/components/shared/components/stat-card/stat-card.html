@@ -1,0 +1,20 @@
+<article
+    class="grid h-full min-h-[5.6rem] min-w-0 grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border border-white/10 bg-linear-to-b from-slate-900 to-slate-950 px-4 py-3 text-slate-50 shadow-[0_14px_28px_rgba(6,12,24,0.16)]"
+>
+    <div
+        class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white/10 text-[1.25rem] leading-none"
+        [class.text-amber-400]="color() === 'yellow'"
+        [class.text-sky-300]="color() === 'blue'"
+        [class.text-emerald-400]="color() === 'green'"
+        [class.text-orange-400]="color() === 'orange'"
+        [class.text-rose-400]="color() === 'red'"
+        aria-hidden="true"
+    >
+        <span class="material-symbols-rounded block select-none">{{ icon() }}</span>
+    </div>
+
+    <div class="grid min-w-0 gap-1">
+        <p class="m-0 text-[0.82rem] font-semibold tracking-[0.02em] text-slate-50/75">{{ title() }}</p>
+        <h2 class="m-0 text-[clamp(1.25rem,2.1vw,1.7rem)] leading-none font-extrabold">{{ value() }}</h2>
+    </div>
+</article>

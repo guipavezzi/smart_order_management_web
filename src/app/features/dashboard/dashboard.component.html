@@ -1,0 +1,123 @@
+<section class="grid gap-6 rounded-3xl bg-linear-to-b from-white to-slate-100 p-6 text-slate-900 shadow-[0_18px_40px_rgba(6,12,24,0.08)]">
+  <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="grid gap-2">
+      <h1 class="m-0 text-[clamp(1.75rem,2.4vw,2.6rem)] leading-none tracking-tight">Dashboard Analítico</h1>
+      <p class="m-0 max-w-3xl leading-6 text-slate-600">
+        Desempenho da cozinha, pratos mais vendidos e fluxo de pedidos (últimos 3 dias).
+      </p>
+    </div>
+    
+    <button
+      type="button"
+      (click)="loadAnalytics()"
+      class="flex items-center justify-center gap-2 rounded-xl bg-sky-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-sky-800 transition-colors hover:cursor-pointer self-start sm:self-auto shrink-0 shadow-sm">
+      <span class="material-symbols-rounded text-base">analytics</span> Atualizar Dados
+    </button>
+  </header>
+
+  <div *ngIf="isLoading" class="flex justify-center items-center py-20 text-slate-400 gap-3">
+    <span class="material-symbols-rounded animate-spin text-2xl">progress_activity</span>
+    <span class="text-sm font-medium">Processando métricas e montando gráficos...</span>
+  </div>
+
+  <div *ngIf="!isLoading && analytics" class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-2">
+    
+    <!-- TOP CARDS ROW (Span full on mobile, 1 col each on large) -->
+    <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <article class="flex flex-col justify-between rounded-2xl bg-white p-5 border border-slate-200 shadow-xs">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-700">
+            <span class="material-symbols-rounded text-xl">receipt_long</span>
+          </div>
+          <h3 class="m-0 text-sm font-semibold text-slate-500 uppercase tracking-wide">Total Finalizados</h3>
+        </div>
+        <p class="m-0 text-4xl font-black text-slate-800">{{ analytics.totalCompletedOrders }}</p>
+      </article>
+
+      <article class="flex flex-col justify-between rounded-2xl bg-white p-5 border border-slate-200 shadow-xs">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="flex size-10 items-center justify-center rounded-full bg-indigo-100 text-indigo-700">
+            <span class="material-symbols-rounded text-xl">timer</span>
+          </div>
+          <h3 class="m-0 text-sm font-semibold text-slate-500 uppercase tracking-wide">Tempo Médio</h3>
+        </div>
+        <p class="m-0 text-4xl font-black text-slate-800">{{ analytics.averagePreparationTime }} <span class="text-xl text-slate-400 font-medium tracking-normal">min</span></p>
+      </article>
+
+      <article class="flex flex-col justify-between rounded-2xl bg-white p-5 border border-slate-200 shadow-xs">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="flex size-10 items-center justify-center rounded-full bg-fuchsia-100 text-fuchsia-700">
+            <span class="material-symbols-rounded text-xl">table_restaurant</span>
+          </div>
+          <h3 class="m-0 text-sm font-semibold text-slate-500 uppercase tracking-wide">Mesa Mais Ativa</h3>
+        </div>
+        <p class="m-0 text-4xl font-black text-slate-800">#{{ analytics.mostActiveTable }}</p>
+      </article>
+    </div>
+
+    <!-- MIDDLE ROW: Charts -->
+    
+    <!-- Fluxo (Peak Hours) -->
+    <div class="lg:col-span-2 rounded-2xl bg-white p-6 border border-slate-200 shadow-xs flex flex-col">
+      <h3 class="m-0 mb-4 text-base font-bold text-slate-700 flex items-center gap-2">
+        <span class="material-symbols-rounded text-sky-500">monitoring</span> Picos de Horário
+      </h3>
+      <div class="flex-1 w-full" *ngIf="peakHoursChartOptions">
+        <apx-chart
+          [series]="peakHoursChartOptions.series"
+          [chart]="peakHoursChartOptions.chart"
+          [xaxis]="peakHoursChartOptions.xaxis"
+          [yaxis]="peakHoursChartOptions.yaxis"
+          [dataLabels]="peakHoursChartOptions.dataLabels"
+          [grid]="peakHoursChartOptions.grid"
+          [stroke]="peakHoursChartOptions.stroke"
+          [colors]="peakHoursChartOptions.colors"
+          [fill]="peakHoursChartOptions.fill">
+        </apx-chart>
+      </div>
+    </div>
+
+    <!-- Eficiência -->
+    <div class="lg:col-span-1 rounded-2xl bg-white p-6 border border-slate-200 shadow-xs flex flex-col">
+      <h3 class="m-0 mb-4 text-base font-bold text-slate-700 flex items-center gap-2">
+        <span class="material-symbols-rounded text-emerald-500">task_alt</span> Taxa de Eficiência
+      </h3>
+      <div class="flex-1 w-full flex items-center justify-center" *ngIf="efficiencyChartOptions">
+        <apx-chart
+          [series]="efficiencyChartOptions.series"
+          [chart]="efficiencyChartOptions.chart"
+          [labels]="efficiencyChartOptions.labels"
+          [plotOptions]="efficiencyChartOptions.plotOptions"
+          [dataLabels]="efficiencyChartOptions.dataLabels"
+          [legend]="efficiencyChartOptions.legend"
+          [colors]="efficiencyChartOptions.colors">
+        </apx-chart>
+      </div>
+    </div>
+
+    <!-- BOTTOM ROW: Top Dishes -->
+    <div class="lg:col-span-3 rounded-2xl bg-white p-6 border border-slate-200 shadow-xs">
+      <h3 class="m-0 mb-5 text-base font-bold text-slate-700 flex items-center gap-2">
+        <span class="material-symbols-rounded text-amber-500">star</span> Top 5 Mais Vendidos
+      </h3>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div *ngFor="let dish of topDishesList; let i = index" 
+             class="flex items-center gap-4 p-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-amber-200 transition-colors">
+          <div class="flex size-8 items-center justify-center rounded-lg bg-amber-100 text-amber-700 font-bold text-sm">
+            #{{ i + 1 }}
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="m-0 truncate text-sm font-semibold text-slate-800">{{ dish.name }}</p>
+            <p class="m-0 text-xs font-medium text-slate-500">{{ dish.count }} pedidos</p>
+          </div>
+        </div>
+        
+        <div *ngIf="topDishesList.length === 0" class="col-span-full py-6 text-center text-slate-400 text-sm">
+          Nenhum prato finalizado ainda para formar o ranking.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
