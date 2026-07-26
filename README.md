@@ -2,7 +2,7 @@
 
 O **Tempo 86** é um sistema moderno de gerenciamento de pedidos e tempos de preparo (KDS - Kitchen Display System), projetado para entregar alta performance e uma interface de usuário incrível.
 
-🔗 **Repositório do Back-end (API & Banco de Dados):** [Link para o Back-end / SmartOrderManagement.API](../SmartOrderManagement.API)
+🔗 **Repositório do Back-end (API & Banco de Dados):** [SmartOrderManagement.API](https://github.com/guipavezzi/SmartOrderManagement)
 
 ## 🏗️ Sobre este Repositório (Front-end)
 
