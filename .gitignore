@@ -46,3 +46,10 @@ Thumbs.db
 # Arquivos grandes e gerados da API
 src-tauri/binaries/*
 !src-tauri/binaries/.gitkeep
+
+# Backend API sidecar build artifacts
+src-tauri/*.exe
+src-tauri/*.pdb
+src-tauri/appsettings.json
+src-tauri/web.config
+src-tauri/*.endpoints.json

@@ -1,4 +1,8 @@
+use tauri::Manager;
 use tauri_plugin_shell::ShellExt;
+use std::sync::Mutex;
+
+struct SidecarState(Mutex<Option<tauri_plugin_shell::process::CommandChild>>);
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -13,9 +17,33 @@ pub fn run() {
         )?;
       }
       
-      // Inicia a API .NET (Sidecar) em segundo plano
-      let sidecar_command = app.shell().sidecar("api").expect("Erro ao inicializar sidecar");
-      let (_rx, _child) = sidecar_command.spawn().expect("Falha ao rodar a API");
+      // Inicia a API .NET (Sidecar) em segundo plano com tratamento de erros
+      match app.shell().sidecar("api") {
+          Ok(sidecar_command) => {
+              match sidecar_command.spawn() {
+                  Ok((mut rx, child)) => {
+                      std::fs::write("C:\\Users\\guipa\\tauri_api_debug.txt", "Sidecar iniciado com sucesso").unwrap_or(());
+                      
+                      // Drena a saída para evitar Broken Pipe (EPIPE) que derruba a API no Windows
+                      tauri::async_runtime::spawn(async move {
+                          while let Some(_event) = rx.recv().await {
+                              // Consome silenciosamente
+                          }
+                      });
+                      
+                      app.manage(SidecarState(Mutex::new(Some(child))));
+                  },
+                  Err(e) => {
+                      let err_msg = format!("Falha ao executar o sidecar (spawn): {}", e);
+                      std::fs::write("C:\\Users\\guipa\\tauri_api_debug.txt", err_msg).unwrap_or(());
+                  }
+              }
+          },
+          Err(e) => {
+              let err_msg = format!("Falha ao configurar o sidecar (não encontrou binaries/api): {}", e);
+              std::fs::write("C:\\Users\\guipa\\tauri_api_debug.txt", err_msg).unwrap_or(());
+          }
+      }
 
       Ok(())
     })
