@@ -6,7 +6,8 @@ struct SidecarState(Mutex<Option<tauri_plugin_shell::process::CommandChild>>);
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-  tauri::Builder::default()
+  #[allow(unused_mut)]
+  let mut app = tauri::Builder::default()
     .plugin(tauri_plugin_shell::init())
     .setup(|app| {
       if cfg!(debug_assertions) {
@@ -47,6 +48,19 @@ pub fn run() {
 
       Ok(())
     })
-    .run(tauri::generate_context!())
-    .expect("error while running tauri application");
+    .build(tauri::generate_context!())
+    .expect("error while building tauri application");
+
+  app.run(|app_handle, event| match event {
+      tauri::RunEvent::Exit => {
+          // Quando a aplicação fecha, garante que a API também seja encerrada
+          let state = app_handle.state::<SidecarState>();
+          let mut lock = state.0.lock().unwrap();
+          if let Some(child) = lock.take() {
+              let _ = child.kill();
+              println!("Sidecar encerrado.");
+          }
+      }
+      _ => {}
+  });
 }
