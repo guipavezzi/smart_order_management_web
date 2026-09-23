@@ -1,0 +1,92 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <div>
+        <label for="companyName" class="block text-sm font-medium text-indigo-200 mb-1">Nome da Empresa (Restaurante)</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+            </div>
+            <input type="text" id="companyName" formControlName="companyName" 
+                class="block w-full pl-10 pr-3 py-2.5 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
+                placeholder="Ex: Pizzaria do Mario" />
+        </div>
+        <div *ngIf="registerForm.get('companyName')?.touched && registerForm.get('companyName')?.invalid" class="text-rose-400 text-xs mt-1">
+            <span *ngIf="registerForm.get('companyName')?.errors?.['required']">O nome da empresa é obrigatório.</span>
+            <span *ngIf="registerForm.get('companyName')?.errors?.['minlength']">Mínimo de 2 caracteres.</span>
+        </div>
+    </div>
+
+    <div>
+        <label for="name" class="block text-sm font-medium text-indigo-200 mb-1">Seu Nome (Administrador)</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            </div>
+            <input type="text" id="name" formControlName="name" 
+                class="block w-full pl-10 pr-3 py-2.5 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
+                placeholder="Seu nome" />
+        </div>
+        <div *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid" class="text-rose-400 text-xs mt-1">
+            <span *ngIf="registerForm.get('name')?.errors?.['required']">O nome é obrigatório.</span>
+            <span *ngIf="registerForm.get('name')?.errors?.['minlength']">Mínimo de 3 caracteres.</span>
+        </div>
+    </div>
+
+    <div>
+        <label for="email" class="block text-sm font-medium text-indigo-200 mb-1">E-mail</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                </svg>
+            </div>
+            <input type="email" id="email" formControlName="email" 
+                class="block w-full pl-10 pr-3 py-2.5 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
+                placeholder="seu@email.com" />
+        </div>
+        <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="text-rose-400 text-xs mt-1">
+            <span *ngIf="registerForm.get('email')?.errors?.['required']">O e-mail é obrigatório.</span>
+            <span *ngIf="registerForm.get('email')?.errors?.['email']">E-mail inválido.</span>
+        </div>
+    </div>
+
+    <div>
+        <label for="password" class="block text-sm font-medium text-indigo-200 mb-1">Senha</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+            </div>
+            <input type="password" id="password" formControlName="password" 
+                class="block w-full pl-10 pr-3 py-2.5 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
+                placeholder="••••••••" />
+        </div>
+        <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="text-rose-400 text-xs mt-1">
+            <span *ngIf="registerForm.get('password')?.errors?.['required']">A senha é obrigatória.</span>
+            <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Mínimo de 6 caracteres.</span>
+        </div>
+    </div>
+
+    <button type="submit" [disabled]="isLoading" 
+        class="w-full flex justify-center py-3 px-4 mt-6 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-slate-900 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+        <span *ngIf="isLoading" class="flex items-center">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Cadastrando...
+        </span>
+        <span *ngIf="!isLoading">Criar Conta</span>
+    </button>
+    
+    <div class="text-center mt-6">
+        <p class="text-sm text-slate-400">
+            Já tem uma conta? 
+            <a routerLink="/auth/login" class="font-medium text-indigo-400 hover:text-indigo-300 transition duration-150">Faça login</a>
+        </p>
+    </div>
+</form>

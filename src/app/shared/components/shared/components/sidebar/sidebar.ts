@@ -3,6 +3,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { OrderService } from '@app/core/services/order.service';
 import { Subscription, interval } from 'rxjs';
 import Swal from 'sweetalert2';
+import { AuthService } from '@app/core/services/auth.service';
 
 type SidebarItem = Readonly<{
 	label: string;
@@ -34,6 +35,7 @@ export class Sidebar implements OnInit, OnDestroy {
 
 	constructor(
 		private orderService: OrderService,
+		private authService: AuthService,
 		private cdr: ChangeDetectorRef
 	) {}
 
@@ -90,6 +92,25 @@ export class Sidebar implements OnInit, OnDestroy {
 			next: (data) => {
 				this.averageTimeValue = `${data.averagePreparationTime || 0} min`;
 				this.cdr.markForCheck();
+			}
+		});
+	}
+
+	confirmLogout() {
+		Swal.fire({
+			title: 'Sair do Sistema?',
+			text: 'Tem certeza que deseja fazer logout?',
+			icon: 'question',
+			showCancelButton: true,
+			confirmButtonColor: '#ef4444',
+			cancelButtonColor: '#334155',
+			confirmButtonText: 'Sim, Sair',
+			cancelButtonText: 'Cancelar',
+			background: '#1e293b',
+			color: '#fff'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				this.authService.logout();
 			}
 		});
 	}
