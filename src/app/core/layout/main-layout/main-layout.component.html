@@ -1,14 +1,15 @@
 <header
   class="fixed inset-x-0 top-0 z-20 border-b border-white/10 bg-slate-950/95 px-4 py-4 text-slate-50 backdrop-blur-xl lg:px-6">
-  <div class="mx-auto grid max-w-[1600px] gap-4 lg:grid-cols-[1.1fr_1.7fr] lg:items-center">
+  <div class="mx-auto grid w-full gap-4 lg:grid-cols-[1.1fr_1.7fr] lg:items-center">
     <div class="flex items-center justify-between min-w-0 gap-3">
       <div class="flex items-center gap-3 min-w-0 group hover:cursor-default">
-        <img ngSrc="assets/clock_image_copy.png" width="84" height="84" priority alt="Tempo 86"
+        <img ngSrc="assets/logo_smart_order.png" width="84" height="84" priority alt="Logo Smart Order"
           class="h-10 w-10 sm:h-14 sm:w-14 shrink-0 object-contain lg:h-[5.25rem] lg:w-[5.25rem] drop-shadow-md transition-transform duration-500 group-hover:scale-105 group-hover:rotate-3">
         <div class="min-w-0 flex flex-col justify-center">
           <h1
-            class="m-0 text-xl sm:text-[1.8rem] font-black leading-none tracking-tighter text-white lg:text-[clamp(1.8rem,2.5vw,2.8rem)] drop-shadow-sm">
-            TEMPO 86</h1>
+            class="m-0 text-lg sm:text-2xl font-black leading-tight tracking-tight text-white lg:text-[clamp(1.2rem,1.8vw,2rem)] drop-shadow-sm uppercase line-clamp-2"
+            [title]="companyName">
+            {{ companyName }}</h1>
           <p class="hidden sm:block mt-0.5 text-sm font-medium text-slate-300 tracking-wide">Controle Inteligente de
             pedidos</p>
         </div>
@@ -44,7 +45,7 @@
 </header>
 
 <div
-  class="mx-auto grid max-w-[1600px] gap-4 px-4 pt-[13rem] sm:pt-[11rem] lg:grid-cols-[17.5rem_minmax(0,1fr)] lg:px-6 lg:pt-[9rem]">
+  class="mx-auto grid w-full gap-4 px-4 pt-[13rem] sm:pt-[11rem] lg:grid-cols-[17.5rem_minmax(0,1fr)] lg:px-6 lg:pt-[9rem]">
 
   <!-- Overlay Escuro para Mobile -->
   @if (isSidebarOpen) {

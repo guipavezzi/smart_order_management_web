@@ -31,7 +31,7 @@ export class Sidebar implements OnInit, OnDestroy {
 	protected readonly averageTimeLabel = 'Tempo médio de hoje';
 	protected averageTimeValue = 'Carregando...';
 	
-	private timerSub!: Subscription;
+	private metricsSub!: Subscription;
 
 	constructor(
 		private orderService: OrderService,
@@ -41,12 +41,11 @@ export class Sidebar implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.fetchMetrics();
-		this.timerSub = interval(30000).subscribe(() => this.fetchMetrics());
-		this.orderService.metricsUpdated.subscribe(() => this.fetchMetrics());
+		this.metricsSub = this.orderService.metricsUpdated.subscribe(() => this.fetchMetrics());
 	}
 
 	ngOnDestroy() {
-		if (this.timerSub) this.timerSub.unsubscribe();
+		if (this.metricsSub) this.metricsSub.unsubscribe();
 	}
 
 	onLinkClick() {

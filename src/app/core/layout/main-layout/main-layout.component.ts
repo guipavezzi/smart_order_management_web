@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { StatCard } from '@shared/components/shared/components/stat-card/stat-card';
 import { Sidebar } from '@app/shared/components/shared/components/sidebar/sidebar';
 import { OrderService } from '@app/core/services/order.service';
+import { AuthService } from '@app/core/services/auth.service';
 import { Subscription, interval } from 'rxjs';
 
 @Component({
@@ -19,11 +20,13 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     delayed: 0,
     longestWaitTime: '0 min'
   };
-  private timerSub!: Subscription;
+  private metricsSub!: Subscription;
   isSidebarOpen: boolean = false;
+  companyName: string = 'TEMPO 86';
 
   constructor(
     private orderService: OrderService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -38,13 +41,13 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.companyName = this.authService.getCompanyName();
     this.fetchMetrics();
-    this.timerSub = interval(5000).subscribe(() => this.fetchMetrics());
-    this.orderService.metricsUpdated.subscribe(() => this.fetchMetrics());
+    this.metricsSub = this.orderService.metricsUpdated.subscribe(() => this.fetchMetrics());
   }
 
   ngOnDestroy() {
-    if (this.timerSub) this.timerSub.unsubscribe();
+    if (this.metricsSub) this.metricsSub.unsubscribe();
   }
 
   private fetchMetrics() {

@@ -18,6 +18,7 @@ export interface RefreshTokenRequestDto {
 export interface AuthResponse {
 	accessToken: string;
 	refreshToken: string;
+	companyName?: string;
 }
 
 export interface UserProfile {

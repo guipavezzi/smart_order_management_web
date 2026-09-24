@@ -35,6 +35,10 @@ export class AuthService {
 		return this.isAuthenticatedSubject.value;
 	}
 
+	public getCompanyName(): string {
+		return localStorage.getItem('company_name') || 'TEMPO 86';
+	}
+
 	login(request: LoginRequestDto): Observable<AuthResponse> {
 		return this.http.post<AuthResponse>(`${this.API_URL}/login`, request).pipe(
 			tap(response => {
@@ -87,11 +91,15 @@ export class AuthService {
 	private setTokens(response: AuthResponse) {
 		localStorage.setItem('jwt_token', response.accessToken);
 		localStorage.setItem('refresh_token', response.refreshToken);
+		if (response.companyName) {
+			localStorage.setItem('company_name', response.companyName);
+		}
 	}
 
 	private removeTokens() {
 		localStorage.removeItem('jwt_token');
 		localStorage.removeItem('refresh_token');
+		localStorage.removeItem('company_name');
 	}
 
 	private hasToken(): boolean {
