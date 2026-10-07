@@ -1,14 +1,14 @@
-version: '3.8'
+﻿version: '3.8'
 
 services:
-  web:
+  frontend:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: smart_order_management_web
+    container_name: smartordermanagement-web
     ports:
-      - "4200:80"
-    restart: always
+      - "80:80"
+    restart: unless-stopped
     networks:
       - smartorder_net
 
