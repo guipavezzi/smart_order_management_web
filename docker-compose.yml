@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: smart_order_management_web
     ports:
-      - "80:80"
+      - "4200:80"
     restart: always
     networks:
       - smartorder_net
