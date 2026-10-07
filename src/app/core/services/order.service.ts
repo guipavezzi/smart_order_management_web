@@ -4,11 +4,13 @@ import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OrderResponse, Status } from '../models/order.model';
 
+import { environment } from '../../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl = 'http://localhost:5000/api/order'; 
+  private apiUrl = `${environment.apiUrl}/order`; 
   public metricsUpdated = new Subject<void>();
 
   constructor(private http: HttpClient) { }
