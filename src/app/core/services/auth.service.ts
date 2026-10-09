@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, tap, Subscription, interval } from 'rxjs';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthResponse, LoginRequestDto, RegisterRequestDto, UserProfile, RefreshTokenRequestDto } from '../models/auth.model';
 import { environment } from '../../../environments/environment';
+import Swal from 'sweetalert2';
 
 @Injectable({
 	providedIn: 'root'
@@ -17,13 +18,35 @@ export class AuthService {
 	private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
 	public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-	constructor(private http: HttpClient, private router: Router) {
+	private sessionMonitorSub: Subscription | null = null;
+	private isAlertingSession = false;
+	private lastCheckTime = 0;
+
+	constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {
 		if (this.hasToken()) {
 			setTimeout(() => {
 				this.loadUserProfile().subscribe({
-					error: () => this.logout() // If token is invalid/expired, logout
+					error: () => this.handleSessionInvalidated()
 				});
 			});
+			this.startSessionMonitor();
+		}
+
+		this.router.events.subscribe(event => {
+			if (event instanceof NavigationEnd && !event.url.includes('/auth/')) {
+				this.checkSessionOnActivity();
+			}
+		});
+
+		if (typeof window !== 'undefined') {
+			window.addEventListener('focus', () => this.checkSessionOnActivity());
+			window.addEventListener('pageshow', () => this.checkSessionOnActivity());
+			document.addEventListener('visibilitychange', () => {
+				if (!document.hidden) {
+					this.checkSessionOnActivity();
+				}
+			});
+			document.addEventListener('touchstart', () => this.checkSessionOnActivity(), { passive: true });
 		}
 	}
 
@@ -44,6 +67,7 @@ export class AuthService {
 			tap(response => {
 				this.setTokens(response);
 				this.isAuthenticatedSubject.next(true);
+				this.startSessionMonitor();
 				this.loadUserProfile().subscribe();
 			})
 		);
@@ -77,7 +101,60 @@ export class AuthService {
 		);
 	}
 
+	public checkSessionOnActivity() {
+		const now = Date.now();
+		if (now - this.lastCheckTime < 4000) {
+			return;
+		}
+		this.lastCheckTime = now;
+
+		if (this.hasToken()) {
+			this.loadUserProfile().subscribe({
+				error: () => this.handleSessionInvalidated()
+			});
+		}
+	}
+
+	private startSessionMonitor() {
+		this.stopSessionMonitor();
+		this.ngZone.runOutsideAngular(() => {
+			this.sessionMonitorSub = interval(15000).subscribe(() => {
+				if (this.hasToken()) {
+					this.loadUserProfile().subscribe({
+						error: () => {
+							this.ngZone.run(() => this.handleSessionInvalidated());
+						}
+					});
+				}
+			});
+		});
+	}
+
+	private stopSessionMonitor() {
+		if (this.sessionMonitorSub) {
+			this.sessionMonitorSub.unsubscribe();
+			this.sessionMonitorSub = null;
+		}
+	}
+
+	public handleSessionInvalidated() {
+		if (this.isAlertingSession) return;
+		this.isAlertingSession = true;
+
+		this.logout();
+
+		Swal.fire({
+			icon: 'warning',
+			title: 'Sessão Encerrada',
+			text: 'Sua conta foi conectada em outro dispositivo.',
+			confirmButtonColor: '#6366f1'
+		}).finally(() => {
+			this.isAlertingSession = false;
+		});
+	}
+
 	logout() {
+		this.stopSessionMonitor();
 		this.removeTokens();
 		this.currentUserSubject.next(null);
 		this.isAuthenticatedSubject.next(false);
