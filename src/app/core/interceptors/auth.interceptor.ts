@@ -33,7 +33,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 						return next(newReq);
 					}),
 					catchError((refreshError) => {
-						authService.logout();
+						authService.handleSessionInvalidated();
 						return throwError(() => refreshError);
 					})
 				);
