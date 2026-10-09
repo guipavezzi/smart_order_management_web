@@ -1,4 +1,4 @@
-﻿import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -23,6 +23,6 @@ export class HomeComponent {
   protected readonly eyebrow = computed(() => this.routeData().eyebrow ?? 'Smart Order Management');
   protected readonly title = computed(() => this.routeData().title ?? 'Painel');
   protected readonly description = computed(
-    () => this.routeData().description ?? 'Escolha uma tela no menu lateral para comeÃ§ar.'
+    () => this.routeData().description ?? 'Escolha uma tela no menu lateral para começar.'
   );
 }

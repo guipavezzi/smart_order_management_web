@@ -1,4 +1,4 @@
-﻿import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap, Subscription, interval } from 'rxjs';
 import { Router } from '@angular/router';

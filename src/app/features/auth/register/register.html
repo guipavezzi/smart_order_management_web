@@ -1,4 +1,4 @@
-﻿<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
     <div>
         <label for="companyName" class="block text-sm font-medium text-indigo-200 mb-1">Nome da Empresa (Restaurante)</label>
         <div class="relative">
@@ -12,8 +12,8 @@
                 placeholder="Ex: Pizzaria do Mario" />
         </div>
         <div *ngIf="registerForm.get('companyName')?.touched && registerForm.get('companyName')?.invalid" class="text-rose-400 text-xs mt-1">
-            <span *ngIf="registerForm.get('companyName')?.errors?.['required']">O nome da empresa Ã© obrigatÃ³rio.</span>
-            <span *ngIf="registerForm.get('companyName')?.errors?.['minlength']">MÃ­nimo de 2 caracteres.</span>
+            <span *ngIf="registerForm.get('companyName')?.errors?.['required']">O nome da empresa é obrigatório.</span>
+            <span *ngIf="registerForm.get('companyName')?.errors?.['minlength']">Mínimo de 2 caracteres.</span>
         </div>
     </div>
 
@@ -30,8 +30,8 @@
                 placeholder="Seu nome" />
         </div>
         <div *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid" class="text-rose-400 text-xs mt-1">
-            <span *ngIf="registerForm.get('name')?.errors?.['required']">O nome Ã© obrigatÃ³rio.</span>
-            <span *ngIf="registerForm.get('name')?.errors?.['minlength']">MÃ­nimo de 3 caracteres.</span>
+            <span *ngIf="registerForm.get('name')?.errors?.['required']">O nome é obrigatório.</span>
+            <span *ngIf="registerForm.get('name')?.errors?.['minlength']">Mínimo de 3 caracteres.</span>
         </div>
     </div>
 
@@ -48,8 +48,8 @@
                 placeholder="seu@email.com" />
         </div>
         <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="text-rose-400 text-xs mt-1">
-            <span *ngIf="registerForm.get('email')?.errors?.['required']">O e-mail Ã© obrigatÃ³rio.</span>
-            <span *ngIf="registerForm.get('email')?.errors?.['email']">E-mail invÃ¡lido.</span>
+            <span *ngIf="registerForm.get('email')?.errors?.['required']">O e-mail é obrigatório.</span>
+            <span *ngIf="registerForm.get('email')?.errors?.['email']">E-mail inválido.</span>
         </div>
     </div>
 
@@ -63,11 +63,11 @@
             </div>
             <input type="password" id="password" formControlName="password" 
                 class="block w-full pl-10 pr-3 py-2.5 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
-                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" />
+                placeholder="••••••••" />
         </div>
         <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="text-rose-400 text-xs mt-1">
-            <span *ngIf="registerForm.get('password')?.errors?.['required']">A senha Ã© obrigatÃ³ria.</span>
-            <span *ngIf="registerForm.get('password')?.errors?.['minlength']">MÃ­nimo de 6 caracteres.</span>
+            <span *ngIf="registerForm.get('password')?.errors?.['required']">A senha é obrigatória.</span>
+            <span *ngIf="registerForm.get('password')?.errors?.['minlength']">Mínimo de 6 caracteres.</span>
         </div>
     </div>
 
@@ -85,8 +85,8 @@
     
     <div class="text-center mt-6">
         <p class="text-sm text-slate-400">
-            JÃ¡ tem uma conta? 
-            <a routerLink="/auth/login" class="font-medium text-indigo-400 hover:text-indigo-300 transition duration-150">FaÃ§a login</a>
+            Já tem uma conta? 
+            <a routerLink="/auth/login" class="font-medium text-indigo-400 hover:text-indigo-300 transition duration-150">Faça login</a>
         </p>
     </div>
 </form>

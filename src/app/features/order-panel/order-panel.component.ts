@@ -1,4 +1,4 @@
-﻿import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { OrderResponse, Status } from '@app/core/models/order.model';
 import { MenuResponse } from '@app/core/models/menu.model';
 import { OrderService } from '@app/core/services/order.service';
@@ -30,10 +30,10 @@ export class OrderPanelComponent implements OnInit, OnDestroy {
   private alreadyUpdatingStatus = new Set<string>();
 
   statusLabels: { [key: number]: string } = {
-    0: 'Em PreparaÃ§Ã£o',
-    1: 'AtenÃ§Ã£o',
+    0: 'Em Preparação',
+    1: 'Atenção',
     2: 'Atrasado',
-    3: 'ConcluÃ­do'
+    3: 'Concluído'
   };
 
   constructor(
@@ -88,8 +88,8 @@ export class OrderPanelComponent implements OnInit, OnDestroy {
         console.error('Erro ao carregar pedidos:', err);
         Swal.fire({
           icon: 'error',
-          title: 'Erro de ConexÃ£o',
-          text: 'NÃ£o foi possÃ­vel carregar os pedidos. Verifique se a sua API C# estÃ¡ rodando!',
+          title: 'Erro de Conexão',
+          text: 'Não foi possível carregar os pedidos. Verifique se a sua API C# está rodando!',
           confirmButtonColor: '#ef4444'
         });
       }
@@ -113,7 +113,7 @@ export class OrderPanelComponent implements OnInit, OnDestroy {
 
     this.orders.forEach(order => {
       if (order.status === Status.Completed) {
-        order.displayedTime = 'ConcluÃ­do';
+        order.displayedTime = 'Concluído';
         return;
       }
 
@@ -228,7 +228,7 @@ export class OrderPanelComponent implements OnInit, OnDestroy {
           Swal.fire({
             icon: 'error',
             title: 'Erro ao cadastrar',
-            text: 'NÃ£o foi possÃ­vel salvar o pedido no servidor.',
+            text: 'Não foi possível salvar o pedido no servidor.',
             confirmButtonColor: '#ef4444'
           });
         }
@@ -259,7 +259,7 @@ export class OrderPanelComponent implements OnInit, OnDestroy {
           Swal.fire({
             icon: 'error',
             title: 'Erro ao atualizar',
-            text: 'NÃ£o foi possÃ­vel atualizar o pedido no servidor.',
+            text: 'Não foi possível atualizar o pedido no servidor.',
             confirmButtonColor: '#ef4444'
           });
         }
@@ -296,7 +296,7 @@ export class OrderPanelComponent implements OnInit, OnDestroy {
             Swal.fire({
               icon: 'error',
               title: 'Erro ao remover',
-              text: 'NÃ£o foi possÃ­vel remover o pedido. Tente novamente.',
+              text: 'Não foi possível remover o pedido. Tente novamente.',
               confirmButtonColor: '#ef4444',
             });
           }
@@ -308,7 +308,7 @@ export class OrderPanelComponent implements OnInit, OnDestroy {
   completeOrder(order: OrderResponse): void {
     Swal.fire({
       title: 'Finalizar pedido?',
-      html: `Deseja marcar o pedido da <strong>Mesa ${order.table}</strong> como concluÃ­do?`,
+      html: `Deseja marcar o pedido da <strong>Mesa ${order.table}</strong> como concluído?`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#22c55e',
@@ -325,7 +325,7 @@ export class OrderPanelComponent implements OnInit, OnDestroy {
             Swal.fire({
               icon: 'success',
               title: 'Finalizado!',
-              text: 'O pedido foi marcado como concluÃ­do.',
+              text: 'O pedido foi marcado como concluído.',
               timer: 1500,
               showConfirmButton: false,
             });
@@ -334,7 +334,7 @@ export class OrderPanelComponent implements OnInit, OnDestroy {
             Swal.fire({
               icon: 'error',
               title: 'Erro ao finalizar',
-              text: 'NÃ£o foi possÃ­vel finalizar o pedido. Tente novamente.',
+              text: 'Não foi possível finalizar o pedido. Tente novamente.',
               confirmButtonColor: '#ef4444',
             });
           }

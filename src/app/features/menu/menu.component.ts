@@ -1,4 +1,4 @@
-﻿import {
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -59,8 +59,8 @@ export class MenuComponent implements OnInit {
         this.isLoading = false;
         Swal.fire({
           icon: 'error',
-          title: 'Erro de ConexÃ£o',
-          text: 'NÃ£o foi possÃ­vel carregar o cardÃ¡pio. Verifique se a API estÃ¡ rodando.',
+          title: 'Erro de Conexão',
+          text: 'Não foi possível carregar o cardápio. Verifique se a API está rodando.',
           confirmButtonColor: '#ef4444',
         });
         this.cdr.markForCheck();
@@ -94,11 +94,11 @@ export class MenuComponent implements OnInit {
 
   onSubmit(): void {
     if (!this.form.name.trim()) {
-      this.errorMessage = 'O nome Ã© obrigatÃ³rio.';
+      this.errorMessage = 'O nome é obrigatório.';
       return;
     }
     if (this.form.minPreparationTimeInMinutes >= this.form.maxPreparationTimeInMinutes) {
-      this.errorMessage = 'O tempo mÃ­nimo deve ser menor que o tempo mÃ¡ximo.';
+      this.errorMessage = 'O tempo mínimo deve ser menor que o tempo máximo.';
       return;
     }
 
@@ -115,7 +115,7 @@ export class MenuComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Sucesso!',
-            text: 'Item cadastrado no cardÃ¡pio.',
+            text: 'Item cadastrado no cardápio.',
             timer: 1500,
             showConfirmButton: false,
           });
@@ -136,7 +136,7 @@ export class MenuComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Atualizado!',
-            text: 'Item do cardÃ¡pio atualizado com sucesso.',
+            text: 'Item do cardápio atualizado com sucesso.',
             timer: 1500,
             showConfirmButton: false,
           });
@@ -153,7 +153,7 @@ export class MenuComponent implements OnInit {
   confirmDelete(item: MenuResponse): void {
     Swal.fire({
       title: 'Remover item?',
-      html: `Deseja remover <strong>${item.name}</strong> do cardÃ¡pio?`,
+      html: `Deseja remover <strong>${item.name}</strong> do cardápio?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#ef4444',
@@ -169,7 +169,7 @@ export class MenuComponent implements OnInit {
             Swal.fire({
               icon: 'success',
               title: 'Removido!',
-              text: `${item.name} foi removido do cardÃ¡pio.`,
+              text: `${item.name} foi removido do cardápio.`,
               timer: 1500,
               showConfirmButton: false,
             });
@@ -178,7 +178,7 @@ export class MenuComponent implements OnInit {
             Swal.fire({
               icon: 'error',
               title: 'Erro ao remover',
-              text: 'NÃ£o foi possÃ­vel remover o item. Tente novamente.',
+              text: 'Não foi possível remover o item. Tente novamente.',
               confirmButtonColor: '#ef4444',
             });
           },
