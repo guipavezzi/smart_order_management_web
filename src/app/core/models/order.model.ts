@@ -1,4 +1,4 @@
-export enum Status {
+﻿export enum Status {
   InPreparation = 0,
   Attention = 1,
   Delayed = 2,

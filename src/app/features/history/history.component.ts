@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef } from '@angular/core';
+﻿import { ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderResponse } from '@app/core/models/order.model';
 import { OrderService } from '@app/core/services/order.service';
@@ -49,7 +49,7 @@ export class HistoryComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Erro',
-          text: 'Não foi possível carregar o histórico de pedidos.',
+          text: 'NÃ£o foi possÃ­vel carregar o histÃ³rico de pedidos.',
           confirmButtonColor: '#ef4444'
         });
       }

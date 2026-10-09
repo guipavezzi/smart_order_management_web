@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { NgOptimizedImage, CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { StatCard } from '@shared/components/shared/components/stat-card/stat-card';

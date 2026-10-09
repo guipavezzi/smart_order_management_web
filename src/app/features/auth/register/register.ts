@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+﻿import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -39,7 +39,7 @@ export class RegisterComponent {
         Swal.fire({
           icon: 'success',
           title: 'Empresa Cadastrada!',
-          text: 'Sua empresa e usuário administrador foram criados com sucesso. Faça login para continuar.',
+          text: 'Sua empresa e usuÃ¡rio administrador foram criados com sucesso. FaÃ§a login para continuar.',
           background: '#1e293b',
           color: '#fff',
           confirmButtonColor: '#6366f1'
@@ -52,7 +52,7 @@ export class RegisterComponent {
         Swal.fire({
           icon: 'error',
           title: 'Erro no Cadastro',
-          text: err.error?.message || 'Não foi possível realizar o cadastro.',
+          text: err.error?.message || 'NÃ£o foi possÃ­vel realizar o cadastro.',
           background: '#1e293b',
           color: '#fff',
           confirmButtonColor: '#6366f1'

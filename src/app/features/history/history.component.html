@@ -1,7 +1,7 @@
-<section class="grid gap-4 rounded-3xl bg-linear-to-b from-white to-slate-100 p-6 text-slate-900 shadow-[0_18px_40px_rgba(6,12,24,0.08)]">
+﻿<section class="grid gap-4 rounded-3xl bg-linear-to-b from-white to-slate-100 p-6 text-slate-900 shadow-[0_18px_40px_rgba(6,12,24,0.08)]">
   <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
     <div class="grid gap-2">
-      <h1 class="m-0 text-[clamp(1.75rem,2.4vw,2.6rem)] leading-none">Histórico de Pedidos</h1>
+      <h1 class="m-0 text-[clamp(1.75rem,2.4vw,2.6rem)] leading-none">HistÃ³rico de Pedidos</h1>
       <p class="m-0 max-w-3xl leading-6 text-slate-600">
         Consulta de todos os pedidos, separados por dia/expediente.
       </p>
@@ -15,24 +15,20 @@
     </button>
   </header>
 
-  <!-- Estado de carregamento -->
   <div *ngIf="isLoading" class="flex justify-center items-center py-16 text-slate-400 gap-3">
     <span class="material-symbols-rounded animate-spin text-2xl">progress_activity</span>
-    <span class="text-sm font-medium">Carregando histórico...</span>
+    <span class="text-sm font-medium">Carregando histÃ³rico...</span>
   </div>
 
-  <!-- Estado vazio -->
   <div *ngIf="!isLoading && !hasAnyOrders"
     class="flex flex-col items-center justify-center gap-3 py-16 text-slate-400">
     <span class="material-symbols-rounded text-5xl">receipt_long</span>
     <p class="m-0 text-sm font-medium">Nenhum pedido finalizado encontrado.</p>
   </div>
 
-  <!-- Grupos de Expediente (Accordion) -->
   <div *ngIf="!isLoading && hasAnyOrders" class="flex flex-col gap-4 mt-2">
     <div *ngFor="let group of groupedOrders" class="rounded-2xl border border-slate-200 bg-white/70 overflow-hidden transition-all shadow-sm">
       
-      <!-- Cabeçalho do Grupo -->
       <button type="button" (click)="toggleGroup(group)"
         class="flex items-center justify-between w-full px-6 py-4 bg-slate-100/50 hover:bg-slate-100 transition-colors cursor-pointer border-b border-transparent"
         [class.border-slate-200]="group.isOpen">
@@ -53,7 +49,6 @@
         </span>
       </button>
 
-      <!-- Tabela de Pedidos (Conteúdo do Grupo) -->
       <div *ngIf="group.isOpen" class="overflow-x-auto p-4 bg-white/40">
         <table class="min-w-200 w-full border-collapse text-left">
           <thead class="text-slate-500 border-b border-slate-200">
@@ -62,7 +57,7 @@
               <th scope="col" class="px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Pedido</th>
               <th scope="col" class="px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Status</th>
               <th scope="col" class="px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Data / Hora</th>
-              <th scope="col" class="px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Observação</th>
+              <th scope="col" class="px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">ObservaÃ§Ã£o</th>
             </tr>
           </thead>
           <tbody>
@@ -71,7 +66,7 @@
               <td class="px-4 py-3.5 font-medium text-slate-700">{{ order.ordered }}</td>
               <td class="px-4 py-3.5">
                 <span class="inline-flex items-center justify-center whitespace-nowrap rounded-full px-2.5 py-1 text-[0.7rem] font-bold bg-green-100 text-green-800">
-                  Concluído
+                  ConcluÃ­do
                 </span>
               </td>
               <td class="px-4 py-3.5 text-slate-700 text-sm">{{ order.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>

@@ -1,9 +1,9 @@
-<section class="grid gap-6 rounded-3xl bg-linear-to-b from-white to-slate-100 p-6 text-slate-900 shadow-[0_18px_40px_rgba(6,12,24,0.08)]">
+﻿<section class="grid gap-6 rounded-3xl bg-linear-to-b from-white to-slate-100 p-6 text-slate-900 shadow-[0_18px_40px_rgba(6,12,24,0.08)]">
   <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
     <div class="grid gap-2">
-      <h1 class="m-0 text-[clamp(1.75rem,2.4vw,2.6rem)] leading-none tracking-tight">Dashboard Analítico</h1>
+      <h1 class="m-0 text-[clamp(1.75rem,2.4vw,2.6rem)] leading-none tracking-tight">Dashboard AnalÃ­tico</h1>
       <p class="m-0 max-w-3xl leading-6 text-slate-600">
-        Desempenho da cozinha, pratos mais vendidos e fluxo de pedidos (últimos 3 dias).
+        Desempenho da cozinha, pratos mais vendidos e fluxo de pedidos (Ãºltimos 3 dias).
       </p>
     </div>
     
@@ -17,12 +17,11 @@
 
   <div *ngIf="isLoading" class="flex justify-center items-center py-20 text-slate-400 gap-3">
     <span class="material-symbols-rounded animate-spin text-2xl">progress_activity</span>
-    <span class="text-sm font-medium">Processando métricas e montando gráficos...</span>
+    <span class="text-sm font-medium">Processando mÃ©tricas e montando grÃ¡ficos...</span>
   </div>
 
   <div *ngIf="!isLoading && analytics" class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-2">
     
-    <!-- TOP CARDS ROW (Span full on mobile, 1 col each on large) -->
     <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
       <article class="flex flex-col justify-between rounded-2xl bg-white p-5 border border-slate-200 shadow-xs">
         <div class="flex items-center gap-3 mb-2">
@@ -39,7 +38,7 @@
           <div class="flex size-10 items-center justify-center rounded-full bg-indigo-100 text-indigo-700">
             <span class="material-symbols-rounded text-xl">timer</span>
           </div>
-          <h3 class="m-0 text-sm font-semibold text-slate-500 uppercase tracking-wide">Tempo Médio</h3>
+          <h3 class="m-0 text-sm font-semibold text-slate-500 uppercase tracking-wide">Tempo MÃ©dio</h3>
         </div>
         <p class="m-0 text-4xl font-black text-slate-800">{{ analytics.averagePreparationTime }} <span class="text-xl text-slate-400 font-medium tracking-normal">min</span></p>
       </article>
@@ -55,12 +54,10 @@
       </article>
     </div>
 
-    <!-- MIDDLE ROW: Charts -->
     
-    <!-- Fluxo (Peak Hours) -->
     <div class="lg:col-span-2 rounded-2xl bg-white p-6 border border-slate-200 shadow-xs flex flex-col">
       <h3 class="m-0 mb-4 text-base font-bold text-slate-700 flex items-center gap-2">
-        <span class="material-symbols-rounded text-sky-500">monitoring</span> Picos de Horário
+        <span class="material-symbols-rounded text-sky-500">monitoring</span> Picos de HorÃ¡rio
       </h3>
       <div class="flex-1 w-full" *ngIf="peakHoursChartOptions">
         <apx-chart
@@ -77,10 +74,9 @@
       </div>
     </div>
 
-    <!-- Eficiência -->
     <div class="lg:col-span-1 rounded-2xl bg-white p-6 border border-slate-200 shadow-xs flex flex-col">
       <h3 class="m-0 mb-4 text-base font-bold text-slate-700 flex items-center gap-2">
-        <span class="material-symbols-rounded text-emerald-500">task_alt</span> Taxa de Eficiência
+        <span class="material-symbols-rounded text-emerald-500">task_alt</span> Taxa de EficiÃªncia
       </h3>
       <div class="flex-1 w-full flex items-center justify-center" *ngIf="efficiencyChartOptions">
         <apx-chart
@@ -95,7 +91,6 @@
       </div>
     </div>
 
-    <!-- BOTTOM ROW: Top Dishes -->
     <div class="lg:col-span-3 rounded-2xl bg-white p-6 border border-slate-200 shadow-xs">
       <h3 class="m-0 mb-5 text-base font-bold text-slate-700 flex items-center gap-2">
         <span class="material-symbols-rounded text-amber-500">star</span> Top 5 Mais Vendidos

@@ -1,4 +1,4 @@
-export interface MenuResponse {
+﻿export interface MenuResponse {
   id: string;
   name: string;
   minPreparationTimeInMinutes: number;

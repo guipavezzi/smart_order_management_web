@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef } from '@angular/core';
+﻿import { ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderService } from '@app/core/services/order.service';
 import Swal from 'sweetalert2';
@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Erro',
-          text: 'Não foi possível carregar os dados analíticos do dashboard.',
+          text: 'NÃ£o foi possÃ­vel carregar os dados analÃ­ticos do dashboard.',
           confirmButtonColor: '#ef4444'
         });
       }
@@ -92,7 +92,7 @@ export class DashboardComponent implements OnInit {
               total: {
                 show: true,
                 showAlways: true,
-                label: 'Eficiência',
+                label: 'EficiÃªncia',
                 formatter: () => efficiency + "%"
               }
             }

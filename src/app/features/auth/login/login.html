@@ -1,4 +1,4 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5">
+﻿<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5">
     <div>
         <label for="email" class="block text-sm font-medium text-indigo-200 mb-1">E-mail</label>
         <div class="relative">
@@ -12,8 +12,8 @@
                 placeholder="seu@email.com" />
         </div>
         <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="text-rose-400 text-xs mt-1">
-            <span *ngIf="loginForm.get('email')?.errors?.['required']">O e-mail é obrigatório.</span>
-            <span *ngIf="loginForm.get('email')?.errors?.['email']">E-mail inválido.</span>
+            <span *ngIf="loginForm.get('email')?.errors?.['required']">O e-mail Ã© obrigatÃ³rio.</span>
+            <span *ngIf="loginForm.get('email')?.errors?.['email']">E-mail invÃ¡lido.</span>
         </div>
     </div>
 
@@ -27,11 +27,11 @@
             </div>
             <input type="password" id="password" formControlName="password" 
                 class="block w-full pl-10 pr-3 py-2.5 bg-slate-800/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
-                placeholder="••••••••" />
+                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" />
         </div>
         <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="text-rose-400 text-xs mt-1">
-            <span *ngIf="loginForm.get('password')?.errors?.['required']">A senha é obrigatória.</span>
-            <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Mínimo de 6 caracteres.</span>
+            <span *ngIf="loginForm.get('password')?.errors?.['required']">A senha Ã© obrigatÃ³ria.</span>
+            <span *ngIf="loginForm.get('password')?.errors?.['minlength']">MÃ­nimo de 6 caracteres.</span>
         </div>
     </div>
 
@@ -63,7 +63,7 @@
     
     <div class="text-center mt-6">
         <p class="text-sm text-slate-400">
-            Ainda não usa nosso sistema? 
+            Ainda nÃ£o usa nosso sistema? 
             <a routerLink="/auth/register" class="font-medium text-indigo-400 hover:text-indigo-300 transition duration-150">Cadastre sua Empresa</a>
         </p>
     </div>

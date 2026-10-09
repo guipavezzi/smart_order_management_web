@@ -1,4 +1,4 @@
-import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+﻿import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { catchError, switchMap, throwError } from 'rxjs';
@@ -7,7 +7,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 	const authService = inject(AuthService);
 	const token = authService.getToken();
 
-	// Don't intercept auth endpoints to avoid loops
 	if (req.url.includes('/login') || req.url.includes('/register') || req.url.includes('/refresh-token')) {
 		return next(req);
 	}
@@ -24,7 +23,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 	return next(clonedRequest).pipe(
 		catchError((error: HttpErrorResponse) => {
 			if (error.status === 401 && !req.url.includes('/login')) {
-				// Try to refresh token
 				return authService.refreshToken().pipe(
 					switchMap((response) => {
 						const newReq = req.clone({

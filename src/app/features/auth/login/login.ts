@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+﻿import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -41,7 +41,7 @@ export class LoginComponent {
         Swal.fire({
           icon: 'error',
           title: 'Erro no Login',
-          text: err.error?.message || 'E-mail ou senha inválidos.',
+          text: err.error?.message || 'E-mail ou senha invÃ¡lidos.',
           background: '#1e293b',
           color: '#fff',
           confirmButtonColor: '#6366f1'

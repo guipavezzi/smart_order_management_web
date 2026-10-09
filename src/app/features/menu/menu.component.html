@@ -1,12 +1,11 @@
-<section
+﻿<section
   class="grid gap-4 rounded-3xl bg-linear-to-b from-white to-slate-100 p-6 text-slate-900 shadow-[0_18px_40px_rgba(6,12,24,0.08)]">
 
-  <!-- Cabeçalho -->
   <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
     <div class="grid gap-2">
-      <h1 class="m-0 text-[clamp(1.75rem,2.4vw,2.6rem)] leading-none">Cardápio</h1>
+      <h1 class="m-0 text-[clamp(1.75rem,2.4vw,2.6rem)] leading-none">CardÃ¡pio</h1>
       <p class="m-0 max-w-3xl leading-6 text-slate-600">
-        Gerenciamento de porções e tempos de preparo do menu.
+        Gerenciamento de porÃ§Ãµes e tempos de preparo do menu.
       </p>
     </div>
 
@@ -14,45 +13,42 @@
       type="button"
       (click)="openCreateModal()"
       class="flex items-center justify-center size-[2.5rem] rounded-full bg-green-500 text-white font-bold hover:bg-green-600 transition-colors hover:cursor-pointer self-start sm:self-auto shrink-0"
-      aria-label="Adicionar novo item ao cardápio">
+      aria-label="Adicionar novo item ao cardÃ¡pio">
       <span class="material-symbols-rounded">add</span>
     </button>
   </header>
 
-  <!-- Estado de carregamento -->
   <div *ngIf="isLoading" class="flex justify-center items-center py-16 text-slate-400 gap-3">
     <span class="material-symbols-rounded animate-spin text-2xl">progress_activity</span>
-    <span class="text-sm font-medium">Carregando cardápio...</span>
+    <span class="text-sm font-medium">Carregando cardÃ¡pio...</span>
   </div>
 
-  <!-- Estado vazio -->
   <div *ngIf="!isLoading && menus.length === 0"
     class="flex flex-col items-center justify-center gap-3 py-16 text-slate-400">
     <span class="material-symbols-rounded text-5xl">restaurant_menu</span>
-    <p class="m-0 text-sm font-medium">Nenhum item cadastrado no cardápio ainda.</p>
+    <p class="m-0 text-sm font-medium">Nenhum item cadastrado no cardÃ¡pio ainda.</p>
     <button type="button" (click)="openCreateModal()"
       class="mt-1 inline-flex items-center gap-1.5 rounded-lg bg-green-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600 transition-colors hover:cursor-pointer">
       <span class="material-symbols-rounded text-base">add</span> Adicionar primeiro item
     </button>
   </div>
 
-  <!-- Tabela -->
   <div *ngIf="!isLoading && menus.length > 0"
-    class="overflow-x-auto flex flex-col gap-3" role="region" aria-label="Tabela do cardápio" tabindex="0">
+    class="overflow-x-auto flex flex-col gap-3" role="region" aria-label="Tabela do cardÃ¡pio" tabindex="0">
     <table class="min-w-180 w-full border-collapse text-left rounded-2xl border border-slate-200 bg-white/70">
       <thead class="bg-slate-100/80 text-slate-500">
         <tr>
           <th scope="col" class="border-b border-slate-200 px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">
-            Porção / Item
+            PorÃ§Ã£o / Item
           </th>
           <th scope="col" class="border-b border-slate-200 px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">
-            Tempo Mínimo
+            Tempo MÃ­nimo
           </th>
           <th scope="col" class="border-b border-slate-200 px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">
-            Tempo Máximo
+            Tempo MÃ¡ximo
           </th>
           <th scope="col" class="border-b border-slate-200 px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">
-            Ações
+            AÃ§Ãµes
           </th>
         </tr>
       </thead>
@@ -76,13 +72,11 @@
           </td>
           <td class="border-b border-slate-200 px-4 py-4">
             <div class="flex gap-2">
-              <!-- Editar -->
               <button type="button" (click)="openEditModal(item)"
                 class="inline-flex items-center gap-2 rounded-lg border border-sky-200 bg-sky-50 px-3 py-2 text-sm font-bold text-sky-700 transition hover:-translate-y-px hover:bg-sky-100 hover:cursor-pointer"
                 aria-label="Editar item">
                 <span class="material-symbols-rounded text-base leading-none" aria-hidden="true">edit</span>
               </button>
-              <!-- Excluir -->
               <button type="button" (click)="confirmDelete(item)"
                 class="inline-flex items-center gap-2 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-bold text-rose-700 transition hover:-translate-y-px hover:bg-rose-100 hover:cursor-pointer"
                 aria-label="Excluir item">
@@ -96,7 +90,6 @@
   </div>
 </section>
 
-<!-- Modal Criar / Editar -->
 <div
   *ngIf="isModalOpen"
   id="modal-backdrop"
@@ -105,14 +98,13 @@
 
   <div class="w-full max-w-md mx-4 sm:mx-0 rounded-2xl bg-white shadow-2xl ring-1 ring-slate-200 overflow-hidden">
 
-    <!-- Header do modal -->
     <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
       <div class="flex items-center gap-2">
         <span class="material-symbols-rounded" [class.text-green-500]="modalMode === 'create'" [class.text-sky-500]="modalMode === 'edit'">
           {{ modalMode === 'create' ? 'restaurant_menu' : 'edit' }}
         </span>
         <h2 class="m-0 text-base font-bold text-slate-900">
-          {{ modalMode === 'create' ? 'Novo Item do Cardápio' : 'Editar Item do Cardápio' }}
+          {{ modalMode === 'create' ? 'Novo Item do CardÃ¡pio' : 'Editar Item do CardÃ¡pio' }}
         </h2>
       </div>
       <button type="button" (click)="closeModal()"
@@ -122,13 +114,11 @@
       </button>
     </div>
 
-    <!-- Formulário -->
     <form (ngSubmit)="onSubmit()" class="px-6 py-5 grid gap-5">
 
-      <!-- Nome -->
       <div class="grid gap-1.5">
         <label for="menu-name" class="text-xs font-bold uppercase tracking-[0.08em] text-slate-500">
-          Porção / Item <span class="text-rose-500">*</span>
+          PorÃ§Ã£o / Item <span class="text-rose-500">*</span>
         </label>
         <input
           id="menu-name"
@@ -139,10 +129,9 @@
           class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:border-green-400 focus:ring-2 focus:ring-green-100 transition" />
       </div>
 
-      <!-- Tempo Mínimo -->
       <div class="grid gap-1.5">
         <label for="menu-min-time" class="text-xs font-bold uppercase tracking-[0.08em] text-slate-500">
-          Tempo Mínimo de Preparo <span class="text-rose-500">*</span>
+          Tempo MÃ­nimo de Preparo <span class="text-rose-500">*</span>
         </label>
         <div class="relative">
           <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-rounded text-slate-400 text-base pointer-events-none">schedule</span>
@@ -157,10 +146,9 @@
         </div>
       </div>
 
-      <!-- Tempo Máximo -->
       <div class="grid gap-1.5">
         <label for="menu-max-time" class="text-xs font-bold uppercase tracking-[0.08em] text-slate-500">
-          Tempo Máximo de Preparo <span class="text-rose-500">*</span>
+          Tempo MÃ¡ximo de Preparo <span class="text-rose-500">*</span>
         </label>
         <div class="relative">
           <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-rounded text-slate-400 text-base pointer-events-none">timer</span>
@@ -175,14 +163,12 @@
         </div>
       </div>
 
-      <!-- Erro de validação -->
       <div *ngIf="errorMessage"
         class="flex items-center gap-2 rounded-xl bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-700">
         <span class="material-symbols-rounded text-base shrink-0">error</span>
         {{ errorMessage }}
       </div>
 
-      <!-- Ações -->
       <div class="flex justify-end gap-3 pt-1">
         <button type="button" (click)="closeModal()"
           class="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition hover:cursor-pointer">

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
+﻿import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { OrderService } from '@app/core/services/order.service';
 import { Subscription, interval } from 'rxjs';
@@ -23,12 +23,12 @@ export class Sidebar implements OnInit, OnDestroy {
 
 	protected readonly navigationItems: SidebarItem[] = [
 		{ label: 'Painel de Pedidos', path: '/painel-de-pedidos', icon: 'order_approve' },
-		{ label: 'Histórico', path: '/historico', icon: 'history' },
+		{ label: 'HistÃ³rico', path: '/historico', icon: 'history' },
 		{ label: 'DashBoard', path: '/dashboard', icon: 'dashboard' },
-		{ label: 'Cardápio', path: '/cardapio', icon: 'menu_book' }
+		{ label: 'CardÃ¡pio', path: '/cardapio', icon: 'menu_book' }
 	];
 
-	protected readonly averageTimeLabel = 'Tempo médio de hoje';
+	protected readonly averageTimeLabel = 'Tempo mÃ©dio de hoje';
 	protected averageTimeValue = 'Carregando...';
 	
 	private metricsSub!: Subscription;
@@ -55,7 +55,7 @@ export class Sidebar implements OnInit, OnDestroy {
 	closeShift() {
 		Swal.fire({
 			title: 'Encerrar Expediente?',
-			html: 'Isso vai <strong>agrupar e arquivar</strong> todos os pedidos concluídos desta noite. O painel analítico será limpo para o próximo dia.',
+			html: 'Isso vai <strong>agrupar e arquivar</strong> todos os pedidos concluÃ­dos desta noite. O painel analÃ­tico serÃ¡ limpo para o prÃ³ximo dia.',
 			icon: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#10b981',
@@ -77,7 +77,7 @@ export class Sidebar implements OnInit, OnDestroy {
 						Swal.fire({
 							icon: 'error',
 							title: 'Erro',
-							text: 'Não foi possível encerrar o expediente ou não há pedidos para arquivar.',
+							text: 'NÃ£o foi possÃ­vel encerrar o expediente ou nÃ£o hÃ¡ pedidos para arquivar.',
 							confirmButtonColor: '#ef4444'
 						});
 					}
