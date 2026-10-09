@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap, Subscription, interval } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthResponse, LoginRequestDto, RegisterRequestDto, UserProfile, RefreshTokenRequestDto } from '../models/auth.model';
 import { environment } from '../../../environments/environment';
 import Swal from 'sweetalert2';
@@ -20,6 +20,7 @@ export class AuthService {
 
 	private sessionMonitorSub: Subscription | null = null;
 	private isAlertingSession = false;
+	private lastCheckTime = 0;
 
 	constructor(private http: HttpClient, private router: Router, private ngZone: NgZone) {
 		if (this.hasToken()) {
@@ -31,13 +32,21 @@ export class AuthService {
 			this.startSessionMonitor();
 		}
 
+		this.router.events.subscribe(event => {
+			if (event instanceof NavigationEnd && !event.url.includes('/auth/')) {
+				this.checkSessionOnActivity();
+			}
+		});
+
 		if (typeof window !== 'undefined') {
 			window.addEventListener('focus', () => this.checkSessionOnActivity());
+			window.addEventListener('pageshow', () => this.checkSessionOnActivity());
 			document.addEventListener('visibilitychange', () => {
 				if (!document.hidden) {
 					this.checkSessionOnActivity();
 				}
 			});
+			document.addEventListener('touchstart', () => this.checkSessionOnActivity(), { passive: true });
 		}
 	}
 
@@ -92,7 +101,13 @@ export class AuthService {
 		);
 	}
 
-	private checkSessionOnActivity() {
+	public checkSessionOnActivity() {
+		const now = Date.now();
+		if (now - this.lastCheckTime < 4000) {
+			return;
+		}
+		this.lastCheckTime = now;
+
 		if (this.hasToken()) {
 			this.loadUserProfile().subscribe({
 				error: () => this.handleSessionInvalidated()
