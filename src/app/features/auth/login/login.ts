@@ -5,6 +5,8 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import Swal from 'sweetalert2';
 
+import { environment } from '../../../../environments/environment';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -18,8 +20,8 @@ export class LoginComponent {
   private router = inject(Router);
 
   loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    email: [environment.mockApi ? 'admin@smartorder.com' : '', [Validators.required, Validators.email]],
+    password: [environment.mockApi ? '123456' : '', [Validators.required, Validators.minLength(6)]]
   });
 
   isLoading = false;

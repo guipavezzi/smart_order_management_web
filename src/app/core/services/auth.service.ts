@@ -63,6 +63,9 @@ export class AuthService {
 	}
 
 	login(request: LoginRequestDto): Observable<AuthResponse> {
+		if (typeof window !== 'undefined') {
+			sessionStorage.removeItem('dev_logged_out');
+		}
 		return this.http.post<AuthResponse>(`${this.API_URL}/login`, request).pipe(
 			tap(response => {
 				this.setTokens(response);
@@ -156,6 +159,9 @@ export class AuthService {
 	logout() {
 		this.stopSessionMonitor();
 		this.removeTokens();
+		if (typeof window !== 'undefined') {
+			sessionStorage.setItem('dev_logged_out', 'true');
+		}
 		this.currentUserSubject.next(null);
 		this.isAuthenticatedSubject.next(false);
 		this.router.navigate(['/auth/login']);

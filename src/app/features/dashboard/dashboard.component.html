@@ -20,10 +20,10 @@
     <span class="text-sm font-medium">Processando métricas e montando gráficos...</span>
   </div>
 
-  <div *ngIf="!isLoading && analytics" class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-2">
+  <div *ngIf="!isLoading && analytics" class="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-2">
     
-    <!-- TOP CARDS ROW (Span full on mobile, 1 col each on large) -->
-    <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <!-- TOP CARDS DE RESUMO (Sempre linha inteira no topo) -->
+    <div class="col-span-1 xl:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
       <article class="flex flex-col justify-between rounded-2xl bg-white p-5 border border-slate-200 shadow-xs">
         <div class="flex items-center gap-3 mb-2">
           <div class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-700">
@@ -55,10 +55,8 @@
       </article>
     </div>
 
-    <!-- MIDDLE ROW: Charts -->
-    
-    <!-- Fluxo (Peak Hours) -->
-    <div class="lg:col-span-2 rounded-2xl bg-white p-6 border border-slate-200 shadow-xs flex flex-col">
+    <!-- 1. PICOS DE HORÁRIO (Telas menores: linha inteira | Telas maiores xl: 2 colunas) -->
+    <div class="col-span-1 xl:col-span-2 rounded-2xl bg-white p-6 border border-slate-200 shadow-xs flex flex-col">
       <h3 class="m-0 mb-4 text-base font-bold text-slate-700 flex items-center gap-2">
         <span class="material-symbols-rounded text-sky-500">monitoring</span> Picos de Horário
       </h3>
@@ -77,12 +75,12 @@
       </div>
     </div>
 
-    <!-- Eficiência -->
-    <div class="lg:col-span-1 rounded-2xl bg-white p-6 border border-slate-200 shadow-xs flex flex-col">
+    <!-- 2. TAXA DE EFICIÊNCIA / GRÁFICO DE PIZZA (Telas menores: linha inteira abaixo | Telas maiores xl: 1 coluna ao lado) -->
+    <div class="col-span-1 xl:col-span-1 rounded-2xl bg-white p-6 border border-slate-200 shadow-xs flex flex-col">
       <h3 class="m-0 mb-4 text-base font-bold text-slate-700 flex items-center gap-2">
         <span class="material-symbols-rounded text-emerald-500">task_alt</span> Taxa de Eficiência
       </h3>
-      <div class="flex-1 w-full flex items-center justify-center" *ngIf="efficiencyChartOptions">
+      <div class="flex-1 w-full flex items-center justify-center py-2" *ngIf="efficiencyChartOptions">
         <apx-chart
           [series]="efficiencyChartOptions.series"
           [chart]="efficiencyChartOptions.chart"
@@ -95,21 +93,21 @@
       </div>
     </div>
 
-    <!-- BOTTOM ROW: Top Dishes -->
-    <div class="lg:col-span-3 rounded-2xl bg-white p-6 border border-slate-200 shadow-xs">
+    <!-- 3. TOP 5 MAIS VENDIDOS / RANKING (Linha inteira em todas as resoluções, abaixo de tudo) -->
+    <div class="col-span-1 xl:col-span-3 rounded-2xl bg-white p-6 border border-slate-200 shadow-xs flex flex-col">
       <h3 class="m-0 mb-5 text-base font-bold text-slate-700 flex items-center gap-2">
         <span class="material-symbols-rounded text-amber-500">star</span> Top 5 Mais Vendidos
       </h3>
       
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
         <div *ngFor="let dish of topDishesList; let i = index" 
-             class="flex items-center gap-4 p-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-amber-200 transition-colors">
-          <div class="flex size-8 items-center justify-center rounded-lg bg-amber-100 text-amber-700 font-bold text-sm">
+             class="flex items-center gap-3.5 p-3.5 rounded-xl bg-slate-50 border border-slate-100 hover:border-amber-200 transition-colors">
+          <div class="flex size-9 items-center justify-center rounded-lg bg-amber-100 text-amber-700 font-bold text-sm shrink-0">
             #{{ i + 1 }}
           </div>
           <div class="min-w-0 flex-1">
-            <p class="m-0 truncate text-sm font-semibold text-slate-800">{{ dish.name }}</p>
-            <p class="m-0 text-xs font-medium text-slate-500">{{ dish.count }} pedidos</p>
+            <p class="m-0 text-sm font-semibold text-slate-800 leading-snug" [title]="dish.name">{{ dish.name }}</p>
+            <p class="m-0 text-xs font-medium text-slate-500 mt-0.5">{{ dish.count }} pedidos</p>
           </div>
         </div>
         

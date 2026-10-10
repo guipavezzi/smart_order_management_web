@@ -13,6 +13,9 @@ describe('StatCard', () => {
 
     fixture = TestBed.createComponent(StatCard);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('icon', 'receipt_long');
+    fixture.componentRef.setInput('title', 'Teste');
+    fixture.componentRef.setInput('value', 10);
     await fixture.whenStable();
   });
 
