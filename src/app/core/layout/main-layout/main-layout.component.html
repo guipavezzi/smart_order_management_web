@@ -1,6 +1,6 @@
 <header
   class="fixed inset-x-0 top-0 z-20 border-b border-white/10 bg-slate-950/95 px-4 py-4 text-slate-50 backdrop-blur-xl lg:px-6">
-  <div class="mx-auto grid w-full gap-4 lg:grid-cols-[1.1fr_1.7fr] lg:items-center">
+  <div class="mx-auto grid w-full gap-4 lg:grid-cols-[auto_1fr] lg:items-center">
     <div class="flex items-center justify-between min-w-0 gap-3">
       <div class="flex items-center gap-3 min-w-0 group hover:cursor-default">
         <img ngSrc="assets/logo_smart_order.png" width="84" height="84" priority alt="Logo Smart Order"
@@ -24,7 +24,7 @@
 
     <!-- Indicadores com rolagem horizontal no mobile -->
     <section
-      class="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2 sm:pb-0 sm:grid sm:grid-cols-2 xl:grid-cols-4 hide-scrollbar"
+      class="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 hide-scrollbar"
       aria-label="Indicadores do sistema">
       <div class="snap-start min-w-[200px] sm:min-w-0 flex-1">
         <app-stat-card title="Em preparo" [value]="metrics.inPreparation" icon="local_dining"
