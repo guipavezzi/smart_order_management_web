@@ -1,14 +1,263 @@
 @import 'tailwindcss';
 @import "@angular/material/prebuilt-themes/azure-blue.css";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--color-brand-50: #eff6ff;
+	--color-brand-100: #dbeafe;
+	--color-brand-600: #2563eb;
+	--color-brand-700: #1d4ed8;
+	--color-canvas: #f8fafc;
+	--color-surface: #ffffff;
+	--color-ink: #0f172a;
+	--color-muted: #475569;
+	--color-line: #e2e8f0;
+}
+
 html,
 body {
 	margin: 0;
-	min-height: 100%;
+	height: 100%;
+	overflow: hidden;
 }
 
 body {
 	font-family: Inter, Arial, sans-serif;
-	background: #eef3f9;
-	color: #10203a;
+	background: #f8fafc;
+	color: #0f172a;
+}
+
+button, a, input, select, textarea {
+	-webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+	outline: 2px solid #2563eb;
+	outline-offset: 2px;
+}
+
+.main-scroll {
+	scrollbar-width: none;
+}
+
+.main-scroll::-webkit-scrollbar {
+	display: none;
+}
+
+.scroll-panel {
+	scrollbar-color: #94a3b8 transparent;
+	scrollbar-width: thin;
+}
+
+.scroll-panel::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+.scroll-panel::-webkit-scrollbar-thumb {
+	border-radius: 9999px;
+	background: #cbd5e1;
+}
+
+html.dark {
+	color-scheme: dark;
+}
+
+html.dark body {
+	background: #0b1120;
+	color: #e2e8f0;
+}
+
+html.dark .scroll-panel {
+	scrollbar-color: #475569 transparent;
+}
+
+html.dark .scroll-panel::-webkit-scrollbar-thumb {
+	background: #475569;
+}
+
+/* Shared dark surfaces and typography for the existing Tailwind utilities. */
+html.dark .bg-white,
+html.dark .bg-white\/70 {
+	background-color: #111827 !important;
+}
+
+html.dark .bg-slate-50 {
+	background-color: #0f172a !important;
+}
+
+html.dark .bg-slate-100 {
+	background-color: #1e293b !important;
+}
+
+html.dark .bg-slate-200 {
+	background-color: #334155 !important;
+}
+
+html.dark .from-white {
+	--tw-gradient-from: #111827 var(--tw-gradient-from-position) !important;
+	--tw-gradient-to: rgb(17 24 39 / 0) var(--tw-gradient-to-position) !important;
+}
+
+html.dark .to-slate-100 {
+	--tw-gradient-to: #0f172a var(--tw-gradient-to-position) !important;
+}
+
+html.dark .text-slate-950,
+html.dark .text-slate-900 {
+	color: #f8fafc !important;
+}
+
+html.dark .text-slate-800 {
+	color: #e2e8f0 !important;
+}
+
+html.dark .text-slate-700 {
+	color: #cbd5e1 !important;
+}
+
+html.dark .text-slate-600,
+html.dark .text-slate-500 {
+	color: #a8b5c7 !important;
+}
+
+html.dark .text-slate-400 {
+	color: #94a3b8 !important;
+}
+
+html.dark a[aria-current="page"] {
+	border-color: #1e3a5f !important;
+	background-color: #172b45 !important;
+	color: #93c5fd !important;
+}
+
+html.dark .border-slate-100,
+html.dark .border-slate-200,
+html.dark .border-slate-300 {
+	border-color: #334155 !important;
+}
+
+html.dark .ring-slate-200 {
+	--tw-ring-color: #334155 !important;
+}
+
+html.dark [class~="hover:bg-slate-50"]:hover {
+	background-color: #1e293b !important;
+}
+
+html.dark [class~="hover:bg-slate-100"]:hover {
+	background-color: #334155 !important;
+}
+
+html.dark .bg-green-50,
+html.dark .bg-green-100,
+html.dark .bg-emerald-100 {
+	background-color: #123524 !important;
+}
+
+html.dark .text-green-700,
+html.dark .text-green-800,
+html.dark .text-green-900,
+html.dark .text-emerald-700,
+html.dark .text-emerald-800 {
+	color: #86efac !important;
+}
+
+html.dark .border-green-200,
+html.dark .border-emerald-200 {
+	border-color: #166534 !important;
+}
+
+html.dark .bg-amber-50,
+html.dark .bg-amber-100 {
+	background-color: #3b2c12 !important;
+}
+
+html.dark .text-amber-700,
+html.dark .text-amber-800,
+html.dark .text-amber-900 {
+	color: #fcd34d !important;
+}
+
+html.dark .border-amber-200 {
+	border-color: #854d0e !important;
+}
+
+html.dark .bg-red-50,
+html.dark .bg-red-100,
+html.dark .bg-rose-50,
+html.dark .bg-rose-100 {
+	background-color: #3b1b23 !important;
+}
+
+html.dark .text-red-700,
+html.dark .text-red-800,
+html.dark .text-red-900,
+html.dark .text-rose-700,
+html.dark .text-rose-800,
+html.dark .text-rose-900 {
+	color: #fda4af !important;
+}
+
+html.dark .border-red-200,
+html.dark .border-rose-200 {
+	border-color: #9f1239 !important;
+}
+
+html.dark .bg-sky-50,
+html.dark .bg-sky-100,
+html.dark .bg-indigo-100,
+html.dark .bg-fuchsia-100 {
+	background-color: #172b45 !important;
+}
+
+html.dark .text-sky-700,
+html.dark .text-sky-800,
+html.dark .text-indigo-700,
+html.dark .text-fuchsia-700 {
+	color: #93c5fd !important;
+}
+
+html.dark .border-sky-200 {
+	border-color: #1d4ed8 !important;
+}
+
+html.dark input,
+html.dark select,
+html.dark textarea {
+	border-color: #475569;
+	background-color: #0f172a;
+	color: #f1f5f9;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+	color: #94a3b8;
+}
+
+html.dark .apexcharts-tooltip,
+html.dark .apexcharts-menu {
+	border-color: #334155 !important;
+	background: #111827 !important;
+	color: #e2e8f0 !important;
+}
+
+html.dark .swal2-popup {
+	border: 1px solid #334155;
+	background: #111827;
+	color: #e2e8f0;
+}
+
+html.dark .swal2-title,
+html.dark .swal2-html-container {
+	color: #e2e8f0;
+}
+
+html.dark .swal2-input,
+html.dark .swal2-textarea,
+html.dark .swal2-select {
+	border-color: #475569;
+	background: #0f172a;
+	color: #f1f5f9;
 }

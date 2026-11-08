@@ -1,0 +1,88 @@
+name: Build e Deploy
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Validar build de produção
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v7
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Compilar Angular para produção
+        run: npm run build -- --configuration production
+
+      - name: Validar a imagem Docker de produção
+        run: docker compose build frontend
+
+  deploy:
+    name: Deploy no servidor
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    steps:
+      - name: Atualizar e iniciar o frontend no servidor
+        uses: appleboy/ssh-action@v1
+        env:
+          PROJECT_PATH: ${{ secrets.SSH_PROJECT_PATH }}
+          DEPLOY_SHA: ${{ github.sha }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          envs: PROJECT_PATH,DEPLOY_SHA
+          command_timeout: 30m
+          script: |
+            set -Eeuo pipefail
+
+            if [ -z "$PROJECT_PATH" ]; then
+              echo "O secret SSH_PROJECT_PATH não foi configurado no GitHub."
+              exit 1
+            fi
+
+            cd "$PROJECT_PATH"
+
+            if [ -n "$(git status --porcelain)" ]; then
+              echo "O diretório de deploy tem alterações locais. Limpe ou salve essas alterações antes do deploy."
+              exit 1
+            fi
+
+            git fetch --no-tags origin master
+
+            if ! git cat-file -e "${DEPLOY_SHA}^{commit}" 2>/dev/null; then
+              git fetch --no-tags origin "$DEPLOY_SHA"
+            fi
+
+            git checkout --detach "$DEPLOY_SHA"
+
+            if ! docker compose config --services | grep -Fxq frontend; then
+              echo "O serviço frontend não foi encontrado no docker-compose.yml."
+              exit 1
+            fi
+
+            docker compose build frontend
+            docker compose up -d --no-deps frontend
+            docker image prune -f

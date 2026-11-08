@@ -1,42 +1,51 @@
-<header
-  class="fixed inset-x-0 top-0 z-20 border-b border-white/10 bg-slate-950/95 px-4 py-4 text-slate-50 backdrop-blur-xl lg:px-6">
-  <div class="mx-auto grid w-full gap-4 lg:grid-cols-[auto_1fr] lg:items-center">
-    <div class="flex items-center justify-between min-w-0 gap-3">
+<div class="flex h-full min-h-0 flex-col overflow-hidden">
+<header class="z-20 shrink-0 border-b border-slate-200 bg-white px-4 py-3 text-slate-900 shadow-sm sm:px-6">
+  <div class="mx-auto grid w-full gap-3 lg:grid-cols-[minmax(15rem,auto)_minmax(0,1fr)] lg:items-center lg:gap-6">
+    <div class="flex min-w-0 items-center justify-between gap-3">
       <div class="flex items-center gap-3 min-w-0 group hover:cursor-default">
         <img ngSrc="assets/logo_smart_order.png" width="84" height="84" priority alt="Logo Smart Order"
-          class="h-10 w-10 sm:h-14 sm:w-14 shrink-0 object-contain lg:h-[5.25rem] lg:w-[5.25rem] drop-shadow-md transition-transform duration-500 group-hover:scale-105 group-hover:rotate-3">
+          class="h-11 w-11 shrink-0 object-contain sm:h-12 sm:w-12">
         <div class="min-w-0 flex flex-col justify-center">
           <h1
-            class="m-0 text-lg sm:text-2xl font-black leading-tight tracking-tight text-white lg:text-[clamp(1.2rem,1.8vw,2rem)] drop-shadow-sm uppercase line-clamp-2"
+            class="m-0 line-clamp-1 text-lg font-extrabold leading-tight tracking-tight text-slate-900 sm:text-xl"
             [title]="companyName">
             {{ companyName }}</h1>
-          <p class="hidden sm:block mt-0.5 text-sm font-medium text-slate-300 tracking-wide">Controle Inteligente de
+          <p class="hidden sm:block mt-0.5 text-xs font-medium tracking-wide text-slate-500">Controle Inteligente de
             pedidos</p>
         </div>
       </div>
 
-      <!-- Botão Hambúrguer (Mobile) -->
-      <button type="button" (click)="toggleSidebar()"
-        class="lg:hidden flex items-center justify-center size-10 rounded-xl bg-white/10 hover:bg-white/20 transition-colors text-slate-100">
-        <span class="material-symbols-rounded">{{ isSidebarOpen ? 'close' : 'menu' }}</span>
-      </button>
+      <div class="flex shrink-0 items-center gap-1">
+        <button type="button" (click)="toggleTheme()"
+          class="inline-flex size-10 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+          aria-label="Alternar tema claro e escuro"
+          [attr.aria-pressed]="isDarkMode" [attr.title]="isDarkMode ? 'Tema escuro ativo' : 'Tema claro ativo'">
+          <span class="material-symbols-rounded" aria-hidden="true">{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</span>
+        </button>
+        <button type="button" (click)="toggleSidebar()"
+          class="inline-flex size-10 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 lg:hidden"
+          [attr.aria-label]="isSidebarOpen ? 'Fechar menu de navegação' : 'Abrir menu de navegação'"
+          [attr.aria-expanded]="isSidebarOpen">
+          <span class="material-symbols-rounded" aria-hidden="true">{{ isSidebarOpen ? 'close' : 'menu' }}</span>
+        </button>
+      </div>
     </div>
 
     <!-- Indicadores com rolagem horizontal no mobile -->
     <section
-      class="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 hide-scrollbar"
+      class="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 hide-scrollbar sm:grid sm:grid-cols-2 sm:pb-0 lg:grid-cols-4"
       aria-label="Indicadores do sistema">
-      <div class="snap-start min-w-[200px] sm:min-w-0 flex-1">
+      <div class="min-w-[12rem] flex-1 snap-start sm:min-w-0">
         <app-stat-card title="Em preparo" [value]="metrics.inPreparation" icon="local_dining"
           color="green"></app-stat-card>
       </div>
-      <div class="snap-start min-w-[200px] sm:min-w-0 flex-1">
+      <div class="min-w-[12rem] flex-1 snap-start sm:min-w-0">
         <app-stat-card title="Atenção" [value]="metrics.attention" icon="schedule" color="yellow"></app-stat-card>
       </div>
-      <div class="snap-start min-w-[200px] sm:min-w-0 flex-1">
+      <div class="min-w-[12rem] flex-1 snap-start sm:min-w-0">
         <app-stat-card title="Atrasados" [value]="metrics.delayed" icon="schedule" color="red"></app-stat-card>
       </div>
-      <div class="snap-start min-w-[200px] sm:min-w-0 flex-1">
+      <div class="min-w-[12rem] flex-1 snap-start sm:min-w-0">
         <app-stat-card title="Maior Espera" [value]="metrics.longestWaitTime" icon="schedule"
           color="blue"></app-stat-card>
       </div>
@@ -44,8 +53,7 @@
   </div>
 </header>
 
-<div
-  class="mx-auto grid w-full gap-4 px-4 pt-[13rem] sm:pt-[14.5rem] lg:grid-cols-[17.5rem_minmax(0,1fr)] lg:px-6 lg:pt-[14.5rem] xl:pt-[9rem]">
+<div class="mx-auto grid min-h-0 w-full flex-1 grid-rows-[minmax(0,1fr)] gap-5 overflow-hidden px-4 py-4 sm:px-6 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-6 lg:py-5">
 
   <!-- Overlay Escuro para Mobile -->
   @if (isSidebarOpen) {
@@ -54,12 +62,13 @@
 
   <!-- Sidebar Container -->
   <div
-    class="fixed inset-y-0 left-0 z-40 w-[17.5rem] transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:z-auto"
+  class="fixed inset-y-0 left-0 z-40 w-[17.5rem] transform transition-transform duration-300 ease-in-out lg:relative lg:z-auto lg:h-full lg:w-auto lg:translate-x-0"
     [class.-translate-x-full]="!isSidebarOpen" [class.translate-x-0]="isSidebarOpen">
     <app-sidebar (closeSidebar)="closeSidebar()" />
   </div>
 
-  <main class="min-w-0 min-h-[calc(100vh-10rem)] w-full">
+  <main class="main-scroll min-h-0 min-w-0 w-full overflow-y-auto overscroll-contain">
     <router-outlet />
   </main>
+</div>
 </div>

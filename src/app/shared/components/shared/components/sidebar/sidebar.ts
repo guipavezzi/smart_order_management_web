@@ -24,7 +24,7 @@ export class Sidebar implements OnInit, OnDestroy {
 	protected readonly navigationItems: SidebarItem[] = [
 		{ label: 'Painel de Pedidos', path: '/painel-de-pedidos', icon: 'order_approve' },
 		{ label: 'Histórico', path: '/historico', icon: 'history' },
-		{ label: 'DashBoard', path: '/dashboard', icon: 'dashboard' },
+		{ label: 'Dashboard', path: '/dashboard', icon: 'dashboard' },
 		{ label: 'Cardápio', path: '/cardapio', icon: 'menu_book' }
 	];
 

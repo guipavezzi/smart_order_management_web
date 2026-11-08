@@ -1,20 +1,17 @@
 <article
-    class="grid h-full min-h-[5.6rem] min-w-0 grid-cols-[auto_1fr] items-center gap-3 rounded-2xl border border-white/10 bg-linear-to-b from-slate-900 to-slate-950 px-4 py-3 text-slate-50 shadow-[0_14px_28px_rgba(6,12,24,0.16)]"
+    class="grid h-full min-h-[4.75rem] min-w-0 grid-cols-[auto_1fr] items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-slate-900 shadow-sm"
 >
     <div
-        class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white/10 text-[1.25rem] leading-none"
-        [class.text-amber-400]="color() === 'yellow'"
-        [class.text-sky-300]="color() === 'blue'"
-        [class.text-emerald-400]="color() === 'green'"
-        [class.text-orange-400]="color() === 'orange'"
-        [class.text-rose-400]="color() === 'red'"
+        class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-brand-50 text-[1.2rem] leading-none text-brand-700"
+        [style.backgroundColor]="color() === 'yellow' ? '#fef3c7' : color() === 'blue' ? '#dbeafe' : color() === 'green' ? '#dcfce7' : color() === 'orange' ? '#ffedd5' : color() === 'red' ? '#ffe4e6' : '#eff6ff'"
+        [style.color]="color() === 'yellow' ? '#92400e' : color() === 'blue' ? '#075985' : color() === 'green' ? '#166534' : color() === 'orange' ? '#9a3412' : color() === 'red' ? '#9f1239' : '#1d4ed8'"
         aria-hidden="true"
     >
         <span class="material-symbols-rounded block select-none">{{ icon() }}</span>
     </div>
 
     <div class="grid min-w-0 gap-1">
-        <p class="m-0 text-[0.82rem] font-semibold tracking-[0.02em] text-slate-50/75">{{ title() }}</p>
-        <h2 class="m-0 text-[clamp(1.25rem,2.1vw,1.7rem)] leading-none font-extrabold">{{ value() }}</h2>
+        <p class="m-0 text-xs font-semibold tracking-[0.02em] text-slate-600">{{ title() }}</p>
+        <h2 class="m-0 text-xl leading-none font-bold tabular-nums text-slate-900">{{ value() }}</h2>
     </div>
 </article>

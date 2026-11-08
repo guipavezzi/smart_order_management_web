@@ -1,8 +1,8 @@
-<section class="grid gap-4 rounded-3xl bg-linear-to-b from-white to-slate-100 p-6 text-slate-900 shadow-[0_18px_40px_rgba(6,12,24,0.08)]">
+<section class="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm sm:p-6">
   <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
     <div class="grid gap-2">
-      <h1 class="m-0 text-[clamp(1.75rem,2.4vw,2.6rem)] leading-none">Histórico de Pedidos</h1>
-      <p class="m-0 max-w-3xl leading-6 text-slate-600">
+      <h1 class="m-0 text-2xl font-bold tracking-tight sm:text-3xl">Histórico de Pedidos</h1>
+      <p class="m-0 max-w-3xl text-sm leading-6 text-slate-600">
         Consulta de todos os pedidos, separados por dia/expediente.
       </p>
     </div>
@@ -10,35 +10,35 @@
     <button
       type="button"
       (click)="loadHistory()"
-      class="flex items-center justify-center gap-2 rounded-xl bg-slate-800 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-900 transition-colors hover:cursor-pointer self-start sm:self-auto shrink-0">
+      class="inline-flex min-h-10 items-center justify-center gap-2 self-start rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white transition hover:bg-brand-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 sm:self-auto">
       <span class="material-symbols-rounded text-base">refresh</span> Atualizar
     </button>
   </header>
 
   <!-- Estado de carregamento -->
-  <div *ngIf="isLoading" class="flex justify-center items-center py-16 text-slate-400 gap-3">
-    <span class="material-symbols-rounded animate-spin text-2xl">progress_activity</span>
+  <div *ngIf="isLoading" class="flex min-h-56 items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white text-slate-600" role="status" aria-live="polite">
+    <span class="material-symbols-rounded animate-spin text-2xl text-brand-600" aria-hidden="true">progress_activity</span>
     <span class="text-sm font-medium">Carregando histórico...</span>
   </div>
 
   <!-- Estado vazio -->
   <div *ngIf="!isLoading && !hasAnyOrders"
-    class="flex flex-col items-center justify-center gap-3 py-16 text-slate-400">
+    class="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-slate-300 bg-slate-50 py-16 text-slate-600" role="status">
     <span class="material-symbols-rounded text-5xl">receipt_long</span>
     <p class="m-0 text-sm font-medium">Nenhum pedido finalizado encontrado.</p>
   </div>
 
   <!-- Grupos de Expediente (Accordion) -->
   <div *ngIf="!isLoading && hasAnyOrders" class="flex flex-col gap-4 mt-2">
-    <div *ngFor="let group of groupedOrders" class="rounded-2xl border border-slate-200 bg-white/70 overflow-hidden transition-all shadow-sm">
+    <div *ngFor="let group of groupedOrders" class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all">
       
       <!-- Cabeçalho do Grupo -->
       <button type="button" (click)="toggleGroup(group)"
-        class="flex items-center justify-between w-full px-6 py-4 bg-slate-100/50 hover:bg-slate-100 transition-colors cursor-pointer border-b border-transparent"
+        class="flex w-full items-center justify-between border-b border-transparent bg-slate-50 px-4 py-4 text-left transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-brand-600 sm:px-5"
         [class.border-slate-200]="group.isOpen">
         
         <div class="flex items-center gap-3">
-          <div class="flex items-center justify-center size-10 rounded-full bg-slate-200 text-slate-600">
+          <div class="flex size-10 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
             <span class="material-symbols-rounded text-xl">folder_open</span>
           </div>
           <div class="text-left">
@@ -54,28 +54,28 @@
       </button>
 
       <!-- Tabela de Pedidos (Conteúdo do Grupo) -->
-      <div *ngIf="group.isOpen" class="overflow-x-auto p-4 bg-white/40">
-        <table class="min-w-200 w-full border-collapse text-left">
-          <thead class="text-slate-500 border-b border-slate-200">
+      <div *ngIf="group.isOpen" class="scroll-panel max-h-[calc(100dvh-20rem)] overflow-auto p-3 sm:p-4">
+        <table class="w-full min-w-[52rem] text-left text-sm">
+          <thead class="sticky top-0 z-10 border-b border-slate-200 bg-slate-50 text-xs font-semibold text-slate-600">
             <tr>
-              <th scope="col" class="px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Mesa</th>
-              <th scope="col" class="px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Pedido</th>
-              <th scope="col" class="px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Status</th>
-              <th scope="col" class="px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Data / Hora</th>
-              <th scope="col" class="px-4 py-3 text-xs font-bold uppercase tracking-[0.08em]">Observação</th>
+              <th scope="col" class="px-4 py-3">Mesa</th>
+              <th scope="col" class="px-4 py-3">Pedido</th>
+              <th scope="col" class="px-4 py-3">Status</th>
+              <th scope="col" class="px-4 py-3">Data / Hora</th>
+              <th scope="col" class="px-4 py-3">Observação</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let order of group.orders" class="hover:bg-slate-50 transition-colors border-b border-slate-100 last:border-0">
-              <td class="px-4 py-3.5 font-semibold text-slate-900">Mesa {{ order.table }}</td>
-              <td class="px-4 py-3.5 font-medium text-slate-700">{{ order.ordered }}</td>
+            <tr *ngFor="let order of group.orders" class="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50">
+              <td class="px-4 py-3.5 font-semibold tabular-nums text-slate-900">Mesa {{ order.table }}</td>
+              <td class="px-4 py-3.5 font-medium text-slate-800">{{ order.ordered }}</td>
               <td class="px-4 py-3.5">
                 <span class="inline-flex items-center justify-center whitespace-nowrap rounded-full px-2.5 py-1 text-[0.7rem] font-bold bg-green-100 text-green-800">
                   Concluído
                 </span>
               </td>
-              <td class="px-4 py-3.5 text-slate-700 text-sm">{{ order.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
-              <td class="px-4 py-3.5 text-slate-500 text-sm">{{ order.observation || 'Nenhuma' }}</td>
+              <td class="px-4 py-3.5 tabular-nums text-slate-600">{{ order.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+              <td class="max-w-72 px-4 py-3.5 text-slate-600"><span class="block truncate" [title]="order.observation || ''">{{ order.observation || '—' }}</span></td>
             </tr>
           </tbody>
         </table>

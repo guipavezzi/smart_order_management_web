@@ -5,6 +5,7 @@ import { StatCard } from '@shared/components/shared/components/stat-card/stat-ca
 import { Sidebar } from '@app/shared/components/shared/components/sidebar/sidebar';
 import { OrderService } from '@app/core/services/order.service';
 import { AuthService } from '@app/core/services/auth.service';
+import { ThemeService } from '@app/core/services/theme.service';
 import { Subscription, interval } from 'rxjs';
 
 @Component({
@@ -22,11 +23,13 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   };
   private metricsSub!: Subscription;
   isSidebarOpen: boolean = false;
+  isDarkMode = false;
   companyName: string = 'TEMPO 86';
 
   constructor(
     private orderService: OrderService,
     private authService: AuthService,
+    readonly themeService: ThemeService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -40,7 +43,13 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
+  toggleTheme(): void {
+    this.isDarkMode = this.themeService.toggle();
+    this.cdr.markForCheck();
+  }
+
   ngOnInit() {
+    this.isDarkMode = this.themeService.initialize();
     this.companyName = this.authService.getCompanyName();
     this.fetchMetrics();
     this.metricsSub = this.orderService.metricsUpdated.subscribe(() => this.fetchMetrics());

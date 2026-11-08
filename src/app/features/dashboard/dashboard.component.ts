@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderService } from '@app/core/services/order.service';
 import Swal from 'sweetalert2';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { ThemeService } from '@app/core/services/theme.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +14,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
   standalone: true,
   imports: [CommonModule, NgApexchartsModule]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   analytics: any = null;
   isLoading = false;
 
@@ -20,14 +22,27 @@ export class DashboardComponent implements OnInit {
   public peakHoursChartOptions: any;
 
   public topDishesList: {name: string, count: number}[] = [];
+  private isDarkMode = false;
+  private themeSubscription!: Subscription;
 
   constructor(
     private orderService: OrderService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private themeService: ThemeService
   ) {}
 
   ngOnInit(): void {
+    this.isDarkMode = this.themeService.isDarkMode;
+    this.themeSubscription = this.themeService.darkMode$.subscribe(isDarkMode => {
+      this.isDarkMode = isDarkMode;
+      if (this.analytics) this.setupCharts(this.analytics);
+      this.cdr.markForCheck();
+    });
     this.loadAnalytics();
+  }
+
+  ngOnDestroy(): void {
+    this.themeSubscription?.unsubscribe();
   }
 
   loadAnalytics(): void {
@@ -66,14 +81,17 @@ export class DashboardComponent implements OnInit {
   private setupCharts(data: any) {
     const efficiency = data.efficiencyRate || 0;
     const delayed = 100 - efficiency;
+    const chartTextColor = this.isDarkMode ? '#cbd5e1' : '#64748b';
 
     this.efficiencyChartOptions = {
       series: [efficiency, delayed],
       chart: {
         type: 'donut',
         height: 300,
-        fontFamily: 'inherit'
+        fontFamily: 'inherit',
+        foreColor: chartTextColor
       },
+      theme: { mode: this.isDarkMode ? 'dark' : 'light' },
       labels: ['No Prazo', 'Atrasado'],
       colors: ['#22c55e', '#ef4444'],
       plotOptions: {
@@ -121,8 +139,10 @@ export class DashboardComponent implements OnInit {
         height: 300,
         type: 'area',
         fontFamily: 'inherit',
-        toolbar: { show: false }
+        toolbar: { show: false },
+        foreColor: chartTextColor
       },
+      theme: { mode: this.isDarkMode ? 'dark' : 'light' },
       colors: ['#3b82f6'],
       fill: {
         type: 'gradient',
@@ -144,19 +164,19 @@ export class DashboardComponent implements OnInit {
         categories: hours,
         labels: {
           style: {
-            colors: '#64748b'
+            colors: chartTextColor
           }
         }
       },
       yaxis: {
         labels: {
           style: {
-            colors: '#64748b'
+            colors: chartTextColor
           }
         }
       },
       grid: {
-        borderColor: '#f1f5f9',
+        borderColor: this.isDarkMode ? '#334155' : '#f1f5f9',
         strokeDashArray: 4
       }
     };
