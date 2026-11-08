@@ -21,6 +21,12 @@ type ModalMode = 'create' | 'edit';
 export class OrderPanelComponent implements OnInit, OnDestroy {
   orders: OrderResponse[] = [];
   menus: MenuResponse[] = [];
+  isLoading = false;
+  loadError = '';
+  searchTerm = '';
+  statusFilter: 'all' | '0' | '1' | '2' = 'all';
+  currentPage = 1;
+  readonly pageSize = 10;
   showModal = false;
   modalMode: ModalMode = 'create';
   editingId: string | null = null;
@@ -28,6 +34,32 @@ export class OrderPanelComponent implements OnInit, OnDestroy {
 
   private timerSubscription!: Subscription;
   private alreadyUpdatingStatus = new Set<string>();
+
+  get filteredOrders(): OrderResponse[] {
+    const query = this.searchTerm.trim().toLocaleLowerCase('pt-BR');
+    return this.orders.filter(order => {
+      const matchesQuery = !query || `${order.table} ${order.ordered} ${order.observation || ''}`.toLocaleLowerCase('pt-BR').includes(query);
+      const matchesStatus = this.statusFilter === 'all' || order.status === Number(this.statusFilter);
+      return matchesQuery && matchesStatus;
+    });
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.filteredOrders.length / this.pageSize));
+  }
+
+  get pagedOrders(): OrderResponse[] {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.filteredOrders.slice(start, start + this.pageSize);
+  }
+
+  get firstVisibleOrder(): number {
+    return this.filteredOrders.length ? (this.currentPage - 1) * this.pageSize + 1 : 0;
+  }
+
+  get lastVisibleOrder(): number {
+    return Math.min(this.currentPage * this.pageSize, this.filteredOrders.length);
+  }
 
   statusLabels: { [key: number]: string } = {
     0: 'Em Preparação',
@@ -75,25 +107,35 @@ export class OrderPanelComponent implements OnInit, OnDestroy {
 
 
   loadOrders(): void {
+    this.isLoading = true;
+    this.loadError = '';
+    this.cdr.markForCheck();
     this.orderService.getOrders(true).subscribe({
       next: (data) => {
         this.orders = data.map(order => ({
           ...order,
           createdAt: this.cleanDate(order.createdAt)
         }));
+        this.currentPage = Math.min(this.currentPage, this.totalPages);
+        this.isLoading = false;
         this.updateTimers();
         this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('Erro ao carregar pedidos:', err);
-        Swal.fire({
-          icon: 'error',
-          title: 'Erro de Conexão',
-          text: 'Não foi possível carregar os pedidos. Verifique se a sua API C# está rodando!',
-          confirmButtonColor: '#ef4444'
-        });
+        this.loadError = 'Não foi possível carregar os pedidos. Verifique a conexão e tente novamente.';
+        this.isLoading = false;
+        this.cdr.markForCheck();
       }
     });
+  }
+
+  onFiltersChanged(): void {
+    this.currentPage = 1;
+  }
+
+  setPage(page: number): void {
+    this.currentPage = Math.max(1, Math.min(page, this.totalPages));
   }
 
   private cleanDate(dateStr: string): string {
@@ -219,6 +261,7 @@ export class OrderPanelComponent implements OnInit, OnDestroy {
           };
 
           this.orders = [...this.orders, cleanedOrder];
+          this.currentPage = this.totalPages;
           this.closeModal();
           this.updateTimers();
           this.cdr.markForCheck();
@@ -283,6 +326,7 @@ export class OrderPanelComponent implements OnInit, OnDestroy {
         this.orderService.deleteOrder(order.id).subscribe({
           next: () => {
             this.orders = this.orders.filter(o => o.id !== order.id);
+            this.currentPage = Math.min(this.currentPage, this.totalPages);
             this.cdr.markForCheck();
             Swal.fire({
               icon: 'success',
